@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "pfyou"
+version = "0.1.0"
+description = "pfyou"
+authors = ["Artur R <ra072016@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.1.7"
+pillow = "^9.4.0"
+psycopg2 = "^2.9.5"
+djangorestframework = "^3.14.0"
+djoser = "^2.1.0"
+django-mptt = "^0.14.0"
+django-ckeditor = "^6.5.1"
+python-dotenv = "^1.0.0"
+sqlalchemy = "^2.0.7"
+pandas = "^1.5.3"
+django-debug-toolbar = "^4.0.0"
+django-allauth = "^0.54.0"
+httpie = "^3.2.1"
+pygments = "^2.15.0"
+django-filter = "^23.1"
+celery = {extras = ["redis"], version = "^5.2.7"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
