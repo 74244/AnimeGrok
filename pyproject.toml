@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "pfyou"
+name = "AnimeGrok"
 version = "0.1.0"
-description = "pfyou"
+description = "AnimeGrok"
 authors = ["Artur R <ra072016@gmail.com>"]
 readme = "README.md"
 
@@ -23,6 +23,7 @@ httpie = "^3.2.1"
 pygments = "^2.15.0"
 django-filter = "^23.1"
 celery = {extras = ["redis"], version = "^5.2.7"}
+drf-yasg = "^1.21.5"
 
 
 [build-system]

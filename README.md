@@ -1,6 +1,6 @@
 
-<h2 align="center">GoPotrenim by Artur R</h2>
+<h2 align="center">AnimeGrok by Artur R</h2>
 
-Сайт Спортивного центра
+Аниме сайт
 
 
