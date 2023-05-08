@@ -1,6 +1,7 @@
 from django.db import models
+from django.urls import reverse
+from django.core.validators import FileExtensionValidator
 
-# Create your models here.
 class Category(models.Model):
     """Категории"""
     name = models.CharField("Категория", max_length=150)
@@ -53,8 +54,8 @@ class Article(models.Model):
     studio = models.CharField("Студия", max_length=150, null=True, blank=True)
     date_aired = models.DateField("Дата выхода в эфир")
     activity = models.CharField(verbose_name="Тип",choices=ACTIVITY_LIST, default='Продолжается')
-    category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True, blank=True)
-    genres = models.ManyToManyField(Genre, verbose_name="Жанры", blank=True)
+    category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True, blank=True, related_name='article')
+    genres = models.ManyToManyField(Genre, verbose_name="Жанры", blank=True, related_name='article')
     duration = models.CharField("Длительность", max_length=3)
     quality = models.CharField("Качество")
     views = models.IntegerField("Просмотры", default=0)
@@ -65,10 +66,20 @@ class Article(models.Model):
     timing = models.ManyToManyField(Actor, verbose_name='Тайминг', blank=True, related_name="timing_workers")
     subtitles = models.ManyToManyField(Actor, verbose_name="Работали над субтитрами", blank=True, related_name="subs_workers")
     season = models.CharField("Сезон", max_length=150, blank=True, null=True)
-
+    
     def __str__(self):
         return self.title
+
+
+    # def get_absolute_url(self):
+    #     return reverse("article-details", kwargs={"slug": self.category.link, "article_id":self.id})
+
+    def get_video_episodes(self):
+        return Video.objects.filter(article_id=self.id)
     
+    def get_review(self):
+        return self.review_set.filter(parent__isnull=True)
+
     class Meta:
         verbose_name = 'Аниме'
         verbose_name_plural = 'Аниме'
@@ -112,8 +123,8 @@ class Rating(models.Model):
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
 
-class Reviews(models.Model):
-    """Отзывы"""
+class Review(models.Model):
+    """Отзыв"""
     email = models.EmailField()
     name = models.CharField("Имя", max_length=100)
     text = models.TextField("Сообщение", max_length=5000)
@@ -126,3 +137,22 @@ class Reviews(models.Model):
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
+
+
+class Video(models.Model):
+    title = models.CharField("Название эпизода", blank=True, max_length=150)
+    episode = models.PositiveSmallIntegerField("Номер эпизода", blank=True)
+    description = models.TextField("Описание")
+    image = models.ImageField("Изображение", upload_to='images/', blank=True)
+    file = models.FileField(upload_to='video/', validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
+    create_at = models.DateTimeField(auto_now_add=True)
+    article = models.ForeignKey(Article, verbose_name="Аниме", on_delete=models.CASCADE, related_name='article_episodes')
+
+    def __str__(self):
+        return f"{self.article}-{self.episode}-{self.title}"
+    
+    def get_absolute_url(self):
+        return reverse("stream", kwargs={"pk":self.article.id, "episode": self.episode})
+    
+    class Meta:
+        verbose_name_plural = "Видео"

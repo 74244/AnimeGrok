@@ -168,3 +168,6 @@ docs/locale/
 # tests/coverage_html/
 # tests/.coverage*
 # tests/report/
+
+static/*
+!*static

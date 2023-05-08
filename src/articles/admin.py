@@ -1,5 +1,5 @@
 from django.contrib import admin
-from src.articles.models import Category, Actor, Genre, Ip, Article, ArticleShot, RatingStar, Rating, Reviews
+from src.articles.models import Category, Actor, Genre, Ip, Article, ArticleShot, RatingStar, Rating, Review, Video
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
@@ -16,4 +16,5 @@ admin.site.register(Ip)
 admin.site.register(ArticleShot)
 admin.site.register(RatingStar)
 admin.site.register(Rating)
-admin.site.register(Reviews)
+admin.site.register(Review)
+admin.site.register(Video)
