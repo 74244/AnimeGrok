@@ -73,7 +73,12 @@
                             </div>
                         </div>
                         <div class="anime__details__btn">
-                            <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
+                            <form action="{% url 'sub' article.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="follow-btn"><i class="fa fa-heart-o"></i> Follow
+                                </button>
+                            </form>
+
                             <!-- <a href="" class="watch-btn"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a> -->
                         </div>
                     </div>

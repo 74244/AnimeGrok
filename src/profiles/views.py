@@ -1,9 +1,10 @@
+
 from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
-
+from rest_framework import permissions, generics
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import permissions
+
 
 from src.profiles.models import UserNet
 from src.profiles.serializers import UserNetListSerializer, UserNetDetailSerializer
@@ -21,3 +22,4 @@ class UserNetViewSet(ModelViewSet):
             return UserNetListSerializer
         elif self.action == "retrieve":
             return UserNetDetailSerializer
+        

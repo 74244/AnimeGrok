@@ -3,6 +3,7 @@
 import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -23,6 +24,7 @@ class Migration(migrations.Migration):
                 ('file', models.FileField(upload_to='video/', validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['mp4'])])),
                 ('create_at', models.DateTimeField(auto_now_add=True)),
                 ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='article_episodes', to='articles.article', verbose_name='Аниме')),
+
             ],
             options={
                 'verbose_name_plural': 'Видео',

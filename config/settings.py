@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
     'src.profiles.apps.ProfilesConfig',
     'src.articles.apps.ArticlesConfig',
+    'src.subscriptions.apps.SubscriptionsConfig',
 ]   
 
 MIDDLEWARE = [
