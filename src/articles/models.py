@@ -3,6 +3,10 @@ from django.urls import reverse
 from django.core.validators import FileExtensionValidator
 from django.conf import settings
 
+from pprint import PrettyPrinter
+
+pp = PrettyPrinter(indent=4)
+
 class Category(models.Model):
     """Категории"""
 
@@ -38,10 +42,14 @@ class Genre(models.Model):
     class Meta:
         verbose_name = "Жанр"
         verbose_name_plural = "Жанры"
+        
 
 
-class Ip(models.Model):
-    ip = models.CharField(max_length=100)
+
+class Viewer(models.Model):
+    ip = models.GenericIPAddressField("IP address", blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    viewed_on = models.DateTimeField("Дата просмотра",auto_now_add=True)
 
 class Article(models.Model):
     """Аниме"""
@@ -70,7 +78,7 @@ class Article(models.Model):
     genres = models.ManyToManyField(Genre, verbose_name="Жанры", blank=True, related_name='article')
     duration = models.CharField("Длительность", max_length=3)
     quality = models.CharField("Качество")
-    views = models.IntegerField("Просмотры", default=0)
+    viewers = models.ManyToManyField(Viewer, verbose_name="Просмотры")
     coutry = models.CharField("Страна", max_length=100, blank=True, null=True)
     voicing = models.ManyToManyField(
         Actor,
@@ -89,19 +97,23 @@ class Article(models.Model):
     )
     season = models.CharField("Сезон", max_length=150, blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    series = models.CharField("Общее количество серий", default='XX')
+    
 
     def __str__(self):
         return self.title
 
 
     def get_absolute_url(self):
-        return reverse("article-details", kwargs={"article_pk":self.id}) #"slug": self.category.link, 
+        return reverse("article-details", kwargs={"slug": self.link}) #, {"pk":self.id}
 
     def get_video_episodes(self):
-        return Video.objects.filter(article_id=self.id)
+        return Video.objects.filter(link=self.link)
     
     def get_review(self):
-        return self.review_set.filter(parent__isnull=True)
+        data = self.review_set.filter(parent__isnull=True)
+        return data
+
 
     class Meta:
         verbose_name = 'Аниме'
@@ -151,9 +163,8 @@ class Rating(models.Model):
 
 class Review(models.Model):
     """Отзыв"""
-
-    email = models.EmailField()
-    name = models.CharField("Имя", max_length=100)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    create_at = models.DateTimeField(auto_now_add=True)
     text = models.TextField("Сообщение", max_length=5000)
     parent = models.ForeignKey(
         'self',
@@ -165,7 +176,7 @@ class Review(models.Model):
     article = models.ForeignKey(Article, verbose_name="Аниме", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name} - {self.article}"
+        return self.article.title
     
     class Meta:
         verbose_name = "Отзыв"
@@ -190,7 +201,7 @@ class Video(models.Model):
         return f"{self.article}-{self.episode}-{self.title}"
     
     def get_absolute_url(self):
-        return reverse("stream", kwargs={"pk":self.article.id, "episode": self.episode})
+        return reverse("stream", kwargs={"slug":self.article.link, "episode": self.episode})
     
     class Meta:
         verbose_name_plural = "Видео"

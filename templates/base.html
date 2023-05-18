@@ -48,8 +48,11 @@
       <div class="search-model">
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch"><i class="icon_close"></i></div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
+            <form action="{% url 'search' %}" method="get" class="search-model-form">
+                <input type="search" id="search-input" name="q" placeholder="Введите название...">
+                <button type="submit" class="btn">
+                    <span class="fa fa-search"></span>
+                </button>
             </form>
         </div>
     </div>
@@ -64,6 +67,7 @@
     <script src="{% static 'js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
     <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
 
 

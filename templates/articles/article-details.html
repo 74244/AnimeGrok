@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static article_tag %}
 
 {% block content %}
 <!-- Breadcrumb Begin -->
@@ -25,8 +25,8 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="anime__details__pic set-bg" data-setbg="{{ article.poster.url }}">
-                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                        <div class="comment"><i class="fa fa-comments"></i> {{article.get_review.count}}</div>
+                        <div class="view"><i class="fa fa-eye"></i> {{article.viewers.count}}</div>
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -37,13 +37,19 @@
                         </div>
                         <div class="anime__details__rating">
                             <div class="rating">
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star-half-o"></i></a>
+                                <form action="{% url 'add-rating' %}" method="post", name="rating">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{article.id}}" name="article">
+                                    <span class="rating">
+                                        {% for k,v in star_form.fields.star.choices %}
+                                            <input id="rating{{v}}" type="radio" name="star" value="{{k}}">
+                                            <label for="rating{{v}}">{{k}}</label>
+                                        {% endfor %}
+                                    </span>
+                                    <span class="editContent">5.0</span>
+                                </form>
                             </div>
-                            <span>1.029 Votes</span>
+                            <span>{{article.ratings.count}}</span>
                         </div>
                         <p>{{ article.description }}</p>
                         <div class="anime__details__widget">
@@ -73,7 +79,7 @@
                             </div>
                         </div>
                         <div class="anime__details__btn">
-                            <form action="{% url 'sub' article.id %}" method="post">
+                            <form action="{% url 'sub' article.link %}" method="post">
                                 {% csrf_token %}
                                 <button class="follow-btn"><i class="fa fa-heart-o"></i> Follow
                                 </button>
@@ -93,7 +99,7 @@
                             <h5>List Name</h5>
                         </div>
                         {% for item in article.article_episodes.all %}
-                        <a href="{{item.get_absolute_url }}">{{item.id}}</a>
+                        <a href="{{item.get_absolute_url }}">{{item.episode}}</a>
                         {% endfor %}
                     </div>
                 </div>
@@ -109,10 +115,10 @@
                     {% for review in article.get_review %}
                     <div class="anime__review__item">
                         <div class="anime__review__item__pic">
-                            <img src="img/anime/review-1.jpg" alt="">
+                            <img src="" alt="">
                         </div>
                         <div class="anime__review__item__text">
-                            <h6>{{ review.name }} - <span>1 Hour ago</span></h6>
+                            <h6>{{ review.user.username }} - <span>{{review.create_at|date:"d M Y"}}</span></h6>
                             <p>{{ review.text }}</p>
                         </div>
                     </div>
@@ -123,8 +129,9 @@
                     <div class="section-title">
                         <h5>Your Review</h5>
                     </div>
-                    <form action="#">
-                        <textarea placeholder="Your Comment"></textarea>
+                    <form action="{% url 'add-review' slug=article.link %}" method="post">
+                        {% csrf_token %}
+                        {{ review_form.text }}
                         <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
                     </form>
                 </div>
@@ -132,15 +139,16 @@
             <div class="col-lg-4 col-md-4">
                 <div class="anime__details__sidebar">
                     <div class="section-title">
-                        <h5>You might like...(recommendations)</h5>
+                        <h5>Last Articles</h5>
                     </div>
-
-                    <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-1.jpg">
-                        <div class="ep">18 / ?</div>
-                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                        <h5><a href="#">Boruto: Naruto next generations</a></h5>
+                    {% get_last_articles as last_articles %}
+                    {% for item in last_articles %}
+                    <div class="product__sidebar__view__item set-bg" data-setbg="{{item.poster.url}}">
+                        <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
+                        <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
+                        <h5><a href="{{item.get_absolute_url}}">{{item.title}}</a></h5>
                     </div>
-                    
+                    {% endfor %}
                 </div>
             </div>
         </div>

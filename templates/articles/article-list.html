@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static article_tag %}
 
 {% block content %}
 <!-- Breadcrumb Begin -->
@@ -48,9 +48,9 @@
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="{{ article.poster.url }}">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                    <div class="ep">{{article.article_episodes.last.episode}} / {{article.series}}</div>
+                                    <div class="comment"><i class="fa fa-comments"></i> {{article.get_review.count}}</div>
+                                    <div class="view"><i class="fa fa-eye"></i> {{article.viewers.count}}</div>
                                 </div>
                                 <div class="product__item__text">
                                     <ul>
@@ -58,7 +58,7 @@
                                         <li>{{ genre.name }}</li>
                                         {% endfor %}
                                     </ul>
-                                    <h5><a href="#">{{ article.title }}</a></h5>
+                                    <h5><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h5>
                                 </div>
                             </div>
                         </div>
@@ -66,12 +66,7 @@
                     </div>
                 </div>
                 <div class="product__pagination">
-                    <a href="#" class="current-page">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#"><i class="fa fa-angle-double-right"></i></a>
+                    {% include 'include/pagination.html' %}
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
@@ -87,31 +82,38 @@
                             <li data-filter=".years">Years</li>
                         </ul>
                         <div class="filter__gallery">
+                            {% get_top_views_articles as top_v_articles %}
+                            {% for item in top_v_articles %}
                             <div class="product__sidebar__view__item set-bg mix day years"
-                                data-setbg="{% static 'img/sidebar/tv-1.jpg' %}">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Boruto: Naruto next generations</a></h5>
+                                data-setbg="{{item.poster.url}}">
+                                <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
+                                <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
+                                <h5><a href="{{item.get_absolute_url}}">{{item.title}}</a></h5>
                             </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="product__sidebar__comment">
                         <div class="section-title">
                             <h5>New Comment</h5>
                         </div>
+                        {% get_last_reviews as last %}
+                        {% for item in last.last_reviews %}
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="{% static 'img/sidebar/comment-1.jpg' %}" alt="">
+                                <img class="review-item" src="{{item.article.poster.url}}" alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
-                                    <li>Active</li>
-                                    <li>Movie</li>
+                                    {% for genre in item.article.genres.all %}
+                                    <li>{{ genre.name }}</li>
+                                    {% endfor %}
                                 </ul>
-                                <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                                <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
+                                <h5><a href="#">{{item.article.title}}</a></h5>
+                                <span><i class="fa fa-eye"></i> {{item.article.viewers.count}}</span>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

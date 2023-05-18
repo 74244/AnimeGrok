@@ -171,3 +171,6 @@ docs/locale/
 
 static/*
 !*static
+src/articles/gens/__init__.py
+src/articles/gens/proxy_ist_edit.py
+src/articles/gens/users_gens.py

@@ -21,6 +21,7 @@ class SubscriptionView(View):
         # print(article)
         url = request.META.get('HTTP_REFERER')
         user = self.model.objects.filter(user_id=3, article_id=article).values()
+        print(request.user.pk)
         # print(user)
         try:
             sub = get_object_or_404(user)
