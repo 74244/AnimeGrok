@@ -49,9 +49,9 @@
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch"><i class="icon_close"></i></div>
             <form action="{% url 'search' %}" method="get" class="search-model-form">
-                <input type="search" id="search-input" name="q" placeholder="Введите название...">
+                <input type="search" name="q" placeholder="Введите название..." required="">
                 <button type="submit" class="btn">
-                    <span class="fa fa-search"></span>
+                    <span class="fa fa-search" aria-hidden="true"></span>
                 </button>
             </form>
         </div>
@@ -69,6 +69,8 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
     <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+    <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
+
 
 
 </body>

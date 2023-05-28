@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from django.db import models
 from django.db.models.query import QuerySet
-from django.http import HttpResponse, StreamingHttpResponse
+from django.http import HttpResponse, StreamingHttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, View
 
@@ -11,7 +11,7 @@ from src.profiles.models import UserNet
 from .forms import RatingForm, ReviewForm
 from .models import Article, Rating, RatingStar, Viewer, Genre
 from .services import open_file
-
+from datetime import datetime, timedelta
 
 
 def home(request):
@@ -85,8 +85,8 @@ class AddReview(View):
 
 
 #TODO: Сделать норм плеер
+
 def get_streaming_video(request, slug, episode):
-    pass
     pk = Article.objects.filter(link=slug).values('pk')[0]['pk']
     file, status_code, content_lenght, content_range = open_file(request, pk, episode) #episode)
     response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
@@ -97,7 +97,6 @@ def get_streaming_video(request, slug, episode):
     response['Content-Range'] = content_range
 
     return response
-
 
 class Search(ListView):
     """Поиск Аниме"""
@@ -112,3 +111,26 @@ class Search(ListView):
         context = super().get_context_data(*args, **kwargs)
         context['q'] = self.request.GET.get("q")
         return context
+    
+class TopViewsFilterView(ListView):
+    """Фильтр аниме в json"""
+
+    def get_queryset(self):
+        print(self.request.GET.lists())
+        # if date_value == 'year':
+        #     value = 365
+        # if date_value == 'month':
+        #     value = 365
+        # if date_value == 'week':
+        #     value = 7
+        # curent_date = datetime.today()
+        # start_date = curent_date - timedelta(days=value)
+        # queryset = Article.objects.annotate(top_views=models.Count('viewers')).order_by('-top_views')[:5].prefetch_related('viewers')
+        queryset = Article.objects.all()[:5].values('title', 'poster', 'viewers',)
+        print(queryset)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return JsonResponse({'top_v_articles':list(queryset)})
+

@@ -7,12 +7,12 @@ class GenreAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', )
+    list_display = ('title', 'user', 'activity', 'poster', 'series')
     prepopulated_fields = {'link': ('title_alt',)}
 
 @admin.register(Viewer)
 class ViewerAdmin(admin.ModelAdmin):
-    list_display = ('ip', 'user')
+    list_display = ('ip', 'user', 'viewed_on')
 
 admin.site.register(Category)
 admin.site.register(Actor)

@@ -10,7 +10,7 @@ pp = PrettyPrinter(indent=4)
 class Category(models.Model):
     """Категории"""
 
-    name = models.CharField("Категория", max_length=150)
+    name = models.CharField("Название", max_length=150)
     description = models.TextField("Описание", blank=True, null=True)
     link = models.SlugField(max_length=150, unique=True)
 
@@ -103,9 +103,8 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-
     def get_absolute_url(self):
-        return reverse("article-details", kwargs={"slug": self.link}) #, {"pk":self.id}
+        return reverse("article-detail", kwargs={"slug": self.link}) #, {"pk":self.id}
 
     def get_video_episodes(self):
         return Video.objects.filter(link=self.link)

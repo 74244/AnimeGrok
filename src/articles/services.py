@@ -1,8 +1,10 @@
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import IO, Generator
 from django.shortcuts import get_object_or_404
 
-from .models import Video
+from .models import Video, Article, Viewer
+
 
 def ranged(
         file: IO[bytes],
@@ -49,3 +51,11 @@ def open_file(request, pk, episode: int) -> tuple:
         content_range = f"bytes {range_start}-{range_end}/{file_size}"
     
     return file, status_code, content_length, content_range
+
+
+def check_date():
+    # print(Viewer.objects.all().values('viewed_on'))
+    curent_date = datetime.today()
+    start_date = curent_date - timedelta(days=5)
+    queryset = Article.objects.filter(viewers__viewed_on__range=[start_date, curent_date]).values('viewers').order_by('-viewers')[:5]
+    print(queryset)

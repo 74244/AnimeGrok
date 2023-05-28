@@ -18,17 +18,22 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from src.routers import urlpatterns as doc_urls
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
-    path('', include('src.profiles.urls')),
-    path('', include('src.articles.urls')),
+    
+    # path('', include('src.profiles.urls')),
+    # path('', include('src.articles.urls')),
     path('', include('src.subscriptions.urls')),
 
 ]
+
+urlpatterns += doc_urls
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

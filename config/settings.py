@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'src.profiles.apps.ProfilesConfig',
     'src.articles.apps.ArticlesConfig',
     'src.subscriptions.apps.SubscriptionsConfig',
+    'src.api.apps.ApiConfig',
 ]   
 
 MIDDLEWARE = [
@@ -152,3 +153,13 @@ AUTH_USER_MODEL = 'profiles.UserNet'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 18,
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}

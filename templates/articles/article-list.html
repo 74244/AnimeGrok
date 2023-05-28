@@ -75,16 +75,20 @@
                         <div class="section-title">
                             <h5>Top Views</h5>
                         </div>
-                        <ul class="filter__controls">
-                            <li class="active" data-filter="*">Day</li>
-                            <li data-filter=".week">Week</li>
-                            <li data-filter=".month">Month</li>
-                            <li data-filter=".years">Years</li>
-                        </ul>
+                        <div>
+                            <form action="{% url 'top_views_filter' %}" method="get" name="filter">
+                                <ul class="filter__controls">
+                                    <li class="active"><button type="submit">Day</button></li>
+                                    <li><button type="submit">Week</button></li>
+                                    <li><button type="submit">Month</button></li>
+                                    <li><button type="submit">Year</button></li>
+                                </ul>
+                            </form>
+                        </div>
                         <div class="filter__gallery">
                             {% get_top_views_articles as top_v_articles %}
                             {% for item in top_v_articles %}
-                            <div class="product__sidebar__view__item set-bg mix day years"
+                            <div class="product__sidebar__view__item set-bg mix"
                                 data-setbg="{{item.poster.url}}">
                                 <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
                                 <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
