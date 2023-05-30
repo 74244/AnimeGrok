@@ -58,5 +58,6 @@ urlpatterns = [
     path('', include('src.articles.urls')),
     # path('', include('src.profiles.urls')),
     path('', include('src.subscriptions.urls')),
+    path('', include('src.recomendations.urls')),
 ]
 

@@ -1,34 +1,59 @@
 from django import template
-from src.articles.models import Review, Article
 from django.db.models import Count
+
 from datetime import datetime, timedelta
+
+from src.recomendations.models import RecArticle
+from src.articles.models import Review, Article
 register = template.Library()
 
-@register.inclusion_tag('articles/list_new_reviews.html')
-def get_last_reviews():
-    """Вывод последних комментариев на странице со списком аниме"""
 
-    last_reviews = Review.objects.all()[:4]
-    return {'last_reviews':last_reviews}
+
+
+@register.inclusion_tag('articles/home_slider_articles.html')
+def get_home_slider_articles():
+    home_slider_articles = Article.objects.filter(on_main=True)
+    return {'home_slider_articles': home_slider_articles}
+
 
 
 @register.simple_tag()
-def get_last_articles():
+def get_season_articles(quantity):
+    """ Вывод аниме по сезону """
+
+    return Article.objects.filter(season__contains='2023-Весна')[:quantity]
+
+@register.simple_tag()
+def get_last_articles(quantity):
     """Вывод последних добавленных аниме"""
 
-    return Article.objects.all()[:4]
+    return Article.objects.order_by('-id')[:quantity]
 
 
 @register.inclusion_tag('articles/list_top_views.html')
 def get_top_views_articles(quantity):
     """Вывод аниме с наибольшими просмотрами """
     top_v_articles = Article.objects.annotate(top_views=Count('viewers')).order_by('-top_views')[:quantity].prefetch_related('viewers')
-    # print(Article.objects.annotate(top_views=Count('viewers')).order_by('-top_views')[:5].prefetch_related('viewers').explain())
 
-    # curent_date = datetime.today()
-    # start_date = curent_date - timedelta(days=5)
-
-    # # print(Article.objects.filter(viewers__viewed_on__range=[start_date, curent_date]).values('viewers').order_by('-viewers')[:5])
-    # print(Article.objects.filter(viewers__viewed_on__range=[start_date, curent_date]).annotate(top_views=Count('viewers')).order_by('-top_views').prefetch_related('viewers')[:5])
     return {'top_v_articles': top_v_articles}
-    # Article.objects.all()[:5]
+
+
+@register.inclusion_tag('articles/recommended_articles.html')
+def get_recommended_articles(quantity):
+    """Вывод аниме из топа рекомендаций"""
+
+    recs = RecArticle.objects.annotate(top=Count('users')).order_by('-top').values_list('article_id', flat=True)[:quantity]
+    r_articles = Article.objects.filter(pk__in=recs)
+    return {'r_articles': r_articles}
+
+@register.simple_tag()
+def get_dorams(quantity):
+    return Article.objects.filter(category__link='dorama')[:quantity]
+
+
+@register.inclusion_tag('articles/list_new_reviews.html')
+def get_last_reviews():
+    """Вывод последних комментариев на странице со списком аниме"""
+
+    last_reviews = Review.objects.all()[:4]
+    return {'last_reviews': last_reviews}

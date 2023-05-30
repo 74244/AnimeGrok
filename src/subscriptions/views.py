@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, CreateView
 
+from src.articles.services import check_article_user
 from src.subscriptions.models import Subscription
 
 
@@ -17,16 +18,8 @@ class SubscriptionView(View):
     model = Subscription
 
     def post(self, request, **kwargs):
-
-        article = self.kwargs.get('article')
-        user_pk = self.kwargs.get('user')
-        url = request.META.get('HTTP_REFERER')
-        user = self.model.objects.filter(user_id=user_pk, article_id=article).values()
-        try:
-            sub = get_object_or_404(user)
-        except Exception:
-            self.model.objects.create(user_id=user_pk, article_id=article)
-            return HttpResponseRedirect(f'{url}')
+        print('-----------', request)
+        url = check_article_user(self, request, **kwargs)
         return HttpResponseRedirect(f'{url}')
     
 #TODO: Исправить удаление

@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import IO, Generator
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 from .models import Video, Article, Viewer
-
+from src.profiles.models import UserNet
+from django.core.exceptions import FieldError, ObjectDoesNotExist
 
 def ranged(
         file: IO[bytes],
@@ -59,3 +61,17 @@ def check_date():
     start_date = curent_date - timedelta(days=5)
     queryset = Article.objects.filter(viewers__viewed_on__range=[start_date, curent_date]).values('viewers').order_by('-viewers')[:5]
     print(queryset)
+
+#TODO: Добавить уведомления в результате функции
+def check_article_user(self, request, **kwargs):
+    """Проверка подписки и рекомендаций"""
+    
+    article = self.kwargs.get('article')
+    user_pk = self.kwargs.get('user')
+    url = request.META.get('HTTP_REFERER')
+    try :
+        self.model.objects.get(article_id=article, users=user_pk)
+    except ObjectDoesNotExist:
+        self.model.objects.create(article_id=article).users.add(user_pk)  
+    finally:
+        return url

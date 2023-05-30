@@ -9,8 +9,10 @@ from .services import open_file
 
 
 
-def home(request):
-    return render(request, 'home.html')
+class HomeView(ListView):
+    model = Article
+    template_name = "home.html"
+    context_object_name = 'article'
 
 class Genre:
     """ Жанры """
@@ -102,7 +104,7 @@ class ReviewCreateView(CreateView):
 
 def get_streaming_video(request, slug, episode):
     pk = Article.objects.filter(link=slug).values('pk')[0]['pk']
-    file, status_code, content_lenght, content_range = open_file(request, pk, episode) #episode)
+    file, status_code, content_lenght, content_range = open_file(request, pk, episode) 
     response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
 
     response['Accept-Ranges'] = 'bytes'
@@ -125,7 +127,9 @@ class Search(ListView):
         context = super().get_context_data(*args, **kwargs)
         context['q'] = self.request.GET.get("q")
         return context
-    
+
+
+#TODO: JS DOM
 class TopViewsFilterView(ListView):
     """Фильтр аниме в json"""
 

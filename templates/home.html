@@ -5,44 +5,7 @@
 <!-- Hero Section Begin -->
 <section class="hero">
     <div class="container">
-        <div class="hero__slider owl-carousel">
-            <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="hero__text">
-                            <div class="label">Adventure</div>
-                            <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                            <p>After 30 days of travel across the world...</p>
-                            <a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="hero__text">
-                            <div class="label">Adventure</div>
-                            <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                            <p>After 30 days of travel across the world...</p>
-                            <a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="hero__text">
-                            <div class="label">Adventure</div>
-                            <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                            <p>After 30 days of travel across the world...</p>
-                            <a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% get_home_slider_articles %}
     </div>
 </section>
 <!-- Hero Section End -->   
@@ -66,22 +29,26 @@
                         </div>
                     </div>
                     <div class="row">
+                        {% get_season_articles quantity=6 as season_articles %}
+                        {% for item in season_articles %}
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/trending/trend-1.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                <div class="product__item__pic set-bg" data-setbg="{{item.poster.url}}">
+                                    <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
+                                    <div class="comment"><i class="fa fa-comments"></i> {{item.reviews.count}}</div>
+                                    <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
                                 </div>
                                 <div class="product__item__text">
                                     <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
+                                        {% for genre in article.genres.all %}
+                                        <li>{{ genre.name }}</li>
+                                        {% endfor %}
                                     </ul>
-                                    <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
+                                    <h5><a href="{{item.get_absolute_url}}">{{item.title}}</a></h5>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="popular__product">
@@ -98,22 +65,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/popular/popular-1.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                </div>
-                                <div class="product__item__text">
-                                    <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
-                                    </ul>
-                                    <h5><a href="#">Sen to Chihiro no Kamikakushi</a></h5>
-                                </div>
-                            </div>
-                        </div>
+                        {% get_recommended_articles quantity=6 %}
                     </div>
                 </div>
                 <div class="recent__product">
@@ -130,22 +82,26 @@
                         </div>
                     </div>
                     <div class="row">
+                        {% get_last_articles quantity=6 as last_articles %}
+                        {% for item in last_articles %}
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/recent/recent-1.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                <div class="product__item__pic set-bg" data-setbg="{{item.poster.url}}">
+                                    <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
+                                    <div class="comment"><i class="fa fa-comments"></i> {{item.reviews.count}}</div>
+                                    <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
                                 </div>
                                 <div class="product__item__text">
                                     <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
+                                        {% for genre in article.genres.all %}
+                                        <li>{{ genre.name }}</li>
+                                        {% endfor %}
                                     </ul>
-                                    <h5><a href="#">Great Teacher Onizuka</a></h5>
+                                    <h5><a href="{{item.get_absolute_url}}">{{item.title}}</a></h5>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="live__product">
@@ -162,22 +118,26 @@
                         </div>
                     </div>
                     <div class="row">
+                        {% get_dorams quantity=6 as dorams %}
+                        {% for item in dorams %}
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/live/live-1.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                <div class="product__item__pic set-bg" data-setbg="{{item.poster.url}}">
+                                    <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
+                                    <div class="comment"><i class="fa fa-comments"></i> {{item.reviews.count}}</div>
+                                    <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
                                 </div>
                                 <div class="product__item__text">
                                     <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
+                                        {% for genre in article.genres.all %}
+                                        <li>{{ genre.name }}</li>
+                                        {% endfor %}
                                     </ul>
-                                    <h5><a href="#">Shouwa Genroku Rakugo Shinjuu</a></h5>
+                                    <h5><a href="{{item.get_absolute_url}}">{{item.title}}</a></h5>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

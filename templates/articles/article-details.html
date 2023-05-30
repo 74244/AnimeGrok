@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="{% url 'home-page' %}"><i class="fa fa-home"></i> Home</a>
+                    <a href="{% url 'home_page' %}"><i class="fa fa-home"></i> Home</a>
                     <a href="{% url 'article-list' %}">Categories</a>
                     <span>{{ article.category }}</span>
                 </div>
@@ -79,11 +79,21 @@
                             </div>
                         </div>
                         <div class="anime__details__btn">
-                            <form action="{% url 'add_subscription' article=article.pk user=user.pk %}" method="post">
-                                {% csrf_token %}
-                                <button class="follow-btn"><i class="fa fa-heart-o"></i> Follow
-                                </button>
-                            </form>
+                            <div>
+                                <div class="row">
+                                    <form action="{% url 'add_subscription' article=article.pk user=user.pk %}" method="post">
+                                        {% csrf_token %}
+                                        <button class="follow-btn"><i class="fa fa-heart-o"></i> Следить
+                                        </button>
+                                    </form>
+        
+                                    <form action="{% url 'create_recarticle' article=article.pk user=user.pk %}" method="post">
+                                        {% csrf_token %}
+                                        <button class="follow-btn"><i class="fa fa-heart-o"></i> Порекомендовать
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
 
                             <!-- <a href="" class="watch-btn"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a> -->
                         </div>
@@ -132,9 +142,9 @@
             <div class="col-lg-4 col-md-4">
                 <div class="anime__details__sidebar">
                     <div class="section-title">
-                        <h5>Last Articles</h5>
+                        <h5>Последние добавленные</h5>
                     </div>
-                    {% get_last_articles as last_articles %}
+                    {% get_last_articles quantity=4 as last_articles %}
                     {% for item in last_articles %}
                     <div class="product__sidebar__view__item set-bg" data-setbg="{{item.poster.url}}">
                         <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>

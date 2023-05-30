@@ -42,13 +42,16 @@ class ViewerAdmin(admin.ModelAdmin):
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'title_alt', 'date_aired',  'activity', 'series', 'season', 
-                    'get_reviews_count', 'get_viewers_count','user', 'get_poster_in_list',)
+                    'get_reviews_count', 'get_viewers_count','user', 'on_main', 'get_poster_in_list',)
     prepopulated_fields = {'link': ('title_alt',)}
     search_fields = ('title',)
     save_as = True
     save_on_top = True
     readonly_fields = ('get_poster_in_article',)
     fieldsets = (
+        (None, {
+            'fields':('on_main',),
+        }),
         (None, {
             'fields':('get_poster_in_article', 'poster'),
         }),

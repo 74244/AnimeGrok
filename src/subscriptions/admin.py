@@ -1,10 +1,13 @@
 from django.contrib import admin
-from .models import Subscription
+from src.subscriptions.models import Subscription
 
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('article', 'user')
-    search_fields = ('article', 'user')
+    list_display = ('article', 'get_subs_count')
+    search_fields = ('article', )
     save_as = True
     save_on_top = True
+
+    def get_subs_count(self, obj):
+        return obj.users.count()

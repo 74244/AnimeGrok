@@ -48,10 +48,11 @@ INSTALLED_APPS = [
     'ckeditor',
     'mptt',
 
-    'src.profiles.apps.ProfilesConfig',
-    'src.articles.apps.ArticlesConfig',
-    'src.subscriptions.apps.SubscriptionsConfig',
     'src.api.apps.ApiConfig',
+    'src.articles.apps.ArticlesConfig',
+    'src.profiles.apps.ProfilesConfig',
+    'src.recomendations.apps.RecomendationsConfig',
+    'src.subscriptions.apps.SubscriptionsConfig',
 ]   
 
 MIDDLEWARE = [
