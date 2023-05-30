@@ -1,11 +1,9 @@
+
 from django.db import models
 from django.urls import reverse
 from django.core.validators import FileExtensionValidator
 from django.conf import settings
-
-from pprint import PrettyPrinter
-
-pp = PrettyPrinter(indent=4)
+from mptt.models import MPTTModel, TreeForeignKey
 
 class Category(models.Model):
     """Категории"""
@@ -21,18 +19,27 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural= "Категории"
 
+
 class Actor(models.Model):
     """Актеры озвучивания, тайминг и работали над субтитрами"""
 
-    name = models.CharField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Актёр", on_delete=models.SET_NULL, blank=True, null=True)
     description = models.TextField("Описание", blank=True, null=True)
-    image = models.ImageField("Изображение", upload_to="actors/")
+    image = models.ImageField("Изображение", upload_to="actors/", blank=True)
     age = models.PositiveIntegerField("Возраст", default=0)
+
+    def __str__(self):
+        return self.user.username
+    
+    class Meta:
+        verbose_name = "Актёр"
+        verbose_name_plural= "Актёры"
+
 
 class Genre(models.Model):
     """Жанры"""
 
-    name = models.CharField("Имя",max_length=100)
+    name = models.CharField("Название",max_length=100)
     description = models.TextField("Описание", blank=True, null=True)
     slug = models.SlugField(max_length=150, unique=True)
 
@@ -44,12 +51,15 @@ class Genre(models.Model):
         verbose_name_plural = "Жанры"
         
 
-
-
 class Viewer(models.Model):
     ip = models.GenericIPAddressField("IP address", blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     viewed_on = models.DateTimeField("Дата просмотра",auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Посетитель"
+        verbose_name_plural = "Посетители"
+
 
 class Article(models.Model):
     """Аниме"""
@@ -98,6 +108,7 @@ class Article(models.Model):
     season = models.CharField("Сезон", max_length=150, blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     series = models.CharField("Общее количество серий", default='XX')
+    on_main = models.BooleanField("Отображать на главной", default=False)
     
 
     def __str__(self):
@@ -113,18 +124,17 @@ class Article(models.Model):
         data = self.review_set.filter(parent__isnull=True)
         return data
 
-
     class Meta:
         verbose_name = 'Аниме'
         verbose_name_plural = 'Аниме'
     
 class ArticleShot(models.Model):
     """Кадры из аниме"""
-
+    article = models.ForeignKey(Article, verbose_name='Аниме', on_delete=models.CASCADE)
     title = models.CharField("Заголовок", max_length=150)
     description = models.TextField("Описание")
     image = models.ImageField("Изображение", upload_to='article_shots/')
-    article = models.ForeignKey(Article, verbose_name='Аниме', on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.title
@@ -132,6 +142,7 @@ class ArticleShot(models.Model):
     class Meta:
         verbose_name = "Кадр из аниме"
         verbose_name_plural = "Кадры из аниме"
+
 
 class RatingStar(models.Model):
     """Звезда рейтинга"""
@@ -145,6 +156,7 @@ class RatingStar(models.Model):
         verbose_name = "Звезда рейтинга"
         verbose_name_plural = "Звезды рейтинга"
         ordering = ["-value"]
+
 
 class Rating(models.Model):
     """Рейтинг"""
@@ -160,22 +172,30 @@ class Rating(models.Model):
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
 
-class Review(models.Model):
+
+class Review(MPTTModel):
     """Отзыв"""
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, verbose_name="Аниме", on_delete=models.CASCADE, related_name='reviews')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     create_at = models.DateTimeField(auto_now_add=True)
     text = models.TextField("Сообщение", max_length=5000)
-    parent = models.ForeignKey(
+    parent = TreeForeignKey(
         'self',
-        verbose_name='Родитель',
-        on_delete=models.SET_NULL,
+        verbose_name='Родительский комментарий',
         blank=True,
-        null=True
+        null=True,
+        related_name='children',
+        on_delete=models.CASCADE,
     )
-    article = models.ForeignKey(Article, verbose_name="Аниме", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.article.title
+        return f'{self.author}:{self.text}'
+
+    # @property
+    # def get_avatar(self):
+    #     if self.author:
+    #         return self.author.profile.get_avatar
+    #     return f'https://ui-avatars.com/api/?size=190&background=random&name={self.name}'
     
     class Meta:
         verbose_name = "Отзыв"
@@ -185,16 +205,16 @@ class Review(models.Model):
 class Video(models.Model):
     """Модель загрузки видео"""
 
-    title = models.CharField("Название эпизода", blank=True, max_length=150)
+    article = models.ForeignKey(Article, verbose_name="Аниме", on_delete=models.CASCADE, related_name='article_episodes')
     episode = models.PositiveSmallIntegerField("Номер эпизода", blank=True)
-    description = models.TextField("Описание")
+    title = models.CharField("Название эпизода", blank=True, max_length=150)
     image = models.ImageField("Изображение", upload_to='images/', blank=True)
     file = models.FileField(
         upload_to='video/',
         validators=[FileExtensionValidator(allowed_extensions=['mp4'])],
     )
     create_at = models.DateTimeField(auto_now_add=True)
-    article = models.ForeignKey(Article, verbose_name="Аниме", on_delete=models.CASCADE, related_name='article_episodes')
+
 
     def __str__(self):
         return f"{self.article}-{self.episode}-{self.title}"

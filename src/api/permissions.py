@@ -12,14 +12,14 @@ class IsStaffAdminOrReadOnly(BasePermission):
         return (request.method in SAFE_METHODS or
                 obj.user.is_authenticated and request.user.is_staff and request.user == obj.user)
     
-class IsAuthor(BasePermission):
-    """Автор релиза"""
+# class IsAuthor(BasePermission):
+#     """Автор релиза"""
 
-    def has_permission(self, request, view):
-        if request.method in SAFE_METHODS:
-            return True
-        return request.user and request.user.is_authenticated
+#     def has_permission(self, request, view):
+#         if request.method in SAFE_METHODS:
+#             return True
+#         return request.user and request.user.is_authenticated
     
-    def has_object_permission(self, request, view, obj):
-        return obj.user == request.user
+#     def has_object_permission(self, request, view, obj):
+#         return obj.user == request.user
     

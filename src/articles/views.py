@@ -1,17 +1,12 @@
-from typing import Any, Dict
-
-from django.db import models
-from django.db.models.query import QuerySet
 from django.http import HttpResponse, StreamingHttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, View, CreateView
 
 from src.base.mixins import CountViewerMixin
-from src.profiles.models import UserNet
 from .forms import RatingForm, ReviewForm
-from .models import Article, Rating, RatingStar, Viewer, Genre
+from .models import Article, Rating,  Genre, Review
 from .services import open_file
-from datetime import datetime, timedelta
+
 
 
 def home(request):
@@ -29,14 +24,13 @@ class ArticleListView(Genre, ListView):
     model = Article
     queryset = Article.objects.all().prefetch_related('viewers', 'genres').select_related('category', 'user',)#.only('title', 'link', 'poster', 'series', 'genres', 'viewers', 'category')
     template_name = "articles/article-list.html"
-    paginate_by = 9
+    paginate_by = 12
 
 
-class ArticleDetailView(DetailView, CountViewerMixin):
+class ArticleDetailView(DetailView, CountViewerMixin, Genre):
     """Полное описание аниме"""
 
     model = Article
-    # queryset = Article.objects.all()
     template_name = "articles/article-details.html"
     slug_field = 'link'
     context_object_name = 'article'
@@ -45,7 +39,7 @@ class ArticleDetailView(DetailView, CountViewerMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['star_form'] = RatingForm()
-        context['review_form'] = ReviewForm()
+        context['form'] = ReviewForm
         context['ip'] = self.get_mixin_ip(self.request)
 
         return context
@@ -68,20 +62,40 @@ class AddRatingStar(View, CountViewerMixin):
 
 
 #TODO: доделать форму после реализации аутентификации
-class AddReview(View):
-    """Добавление отзыва"""
+#FIXME: Исправить вёрстку отзывов в виде дерева
 
-    def post(self, request, slug):
-        form = ReviewForm(request.POST)
-        article = Article.objects.get(link=slug)
-        if form.is_valid():
-            form = form.save(commit=False)
-            if request.POST.get('parent', None):
-                form.parent_id = int(request.POST.get('parent'))
-            form.user = request.user
-            form.article = article
-            form.save()
-        return redirect(article.get_absolute_url())
+class ReviewCreateView(CreateView):
+    """Добавление отзыва"""
+    model = Review
+    form_class = ReviewForm
+
+    def is_ajax(self):
+        return self.request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    def form_valid(self, form):
+        review = form.save(commit=False)
+        review.article_id = self.kwargs.get('pk')
+        if self.request.user.is_authenticated:
+            review.author = self.request.user
+        # else:
+        #     review.author = form.cleaned_data.get('user')
+        review.parent_id = form.cleaned_data.get('parent')
+        review.save()
+
+        if self.is_ajax():
+            if self.request.user.is_authenticated:
+                data = {
+                    'is_child': review.is_child_node(),
+                    'id': review.id,
+                    'author': review.author,
+                    'parent_id': review.parent_id,
+                    'create_at': review.create_at.strftime('%Y-%b-%d %H:%M:%S'),
+                    'text': review.text,
+                    'get_absolute_url': review.article.get_absolute_url()
+                }
+            return JsonResponse(data, status=200)
+        return redirect(review.article.get_absolute_url())
+                
 
 
 #TODO: Сделать норм плеер

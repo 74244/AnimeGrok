@@ -26,21 +26,6 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='article_episodes', to='articles.article', verbose_name='Аниме'),
         ),
         migrations.AddField(
-            model_name='review',
-            name='article',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.article', verbose_name='Аниме'),
-        ),
-        migrations.AddField(
-            model_name='review',
-            name='parent',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='articles.review', verbose_name='Родитель'),
-        ),
-        migrations.AddField(
-            model_name='review',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddField(
             model_name='rating',
             name='article',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ratings', to='articles.article', verbose_name='Аниме'),

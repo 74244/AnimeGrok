@@ -109,18 +109,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Review',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('create_at', models.DateTimeField(auto_now_add=True)),
-                ('text', models.TextField(max_length=5000, verbose_name='Сообщение')),
-            ],
-            options={
-                'verbose_name': 'Отзыв',
-                'verbose_name_plural': 'Отзывы',
-            },
-        ),
-        migrations.CreateModel(
             name='Video',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

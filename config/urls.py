@@ -27,9 +27,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
     
-    # path('', include('src.profiles.urls')),
-    # path('', include('src.articles.urls')),
-    path('', include('src.subscriptions.urls')),
+
 
 ]
 

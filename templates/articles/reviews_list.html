@@ -1,0 +1,22 @@
+{% load mptt_tags static %}
+<div class="nested-reviews">
+    {% recursetree article.reviews.all %}
+    <ul id="review-thread-{{node.pk}}">
+        <li>
+            <div class="anime__review__item">
+                <div class="anime__review__item__pic">
+                    <img src="" alt="">
+                </div>
+                <div class="anime__review__item__text">
+                    <h6>{{ node.author }} - <span>{{node.create_at}}</span></h6>
+                    <p>{{ node.text }}</p>
+                    
+                </div>
+                <a class="btn btn-sm btn-primary btn-reply" href="#reviewForm" data-review-id="{{ node.pk }}" data-review-username="{{ node.author }}">Ответить</a>
+            </div>
+        </li>
+        {% if not node.is_leaf_node %} {{ children }} {% endif %}
+    </ul>
+    {% endrecursetree %}
+</div>
+

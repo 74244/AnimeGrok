@@ -2,7 +2,9 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from src.api.views import ArticleViewSet, UserNetViewSet, CategoryViewSet
+from src.api.views import (ArticleViewSet, UserNetViewSet, CategoryViewSet, 
+                           ActorViewSet,GenreViewSet, RatingViewSet,
+                           ReviewViewSet, VideoViewSet)
 from src.routers import CustomArticleRouter
 
 # import pprint
@@ -16,11 +18,11 @@ router.register(r'profiles', UserNetViewSet, basename='profile')
 
 
 router.register(r'categories', CategoryViewSet, basename='category')
-# router.register(r'actors', UserNetViewSet, basename='actor')
-# router.register(r'genres', UserNetViewSet, basename='genre')
-# router.register(r'ratings', UserNetViewSet, basename='rating')
-# router.register(r'reviews', UserNetViewSet, basename='review')
-# router.register(r'videos', UserNetViewSet, basename='video')
+router.register(r'actors', ActorViewSet, basename='actor')
+router.register(r'genres', GenreViewSet, basename='genre')
+router.register(r'ratings', RatingViewSet, basename='rating')
+router.register(r'reviews', ReviewViewSet, basename='review')
+router.register(r'videos', VideoViewSet, basename='video')
 
 urlpatterns = router.urls
 

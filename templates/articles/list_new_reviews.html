@@ -1,0 +1,21 @@
+<div class="product__sidebar__comment">
+    <div class="section-title">
+        <h5>New Review</h5>
+    </div>
+    {% for review in last_reviews %}
+    <div class="product__sidebar__comment__item">
+        <div class="product__sidebar__comment__item__pic">
+            <img class="review-item" src="{{review.article.poster.url}}" alt="">
+        </div>
+        <div class="product__sidebar__comment__item__text">
+            <ul>
+                {% for genre in review.article.genres.all %}
+                <li>{{ genre.name }}</li>
+                {% endfor %}
+            </ul>
+            <h5><a href="#">{{review.article.title}}</a></h5>
+            <span><i class="fa fa-eye"></i> {{review.article.viewers.count}}</span>
+        </div>
+    </div>
+    {% endfor %}
+</div>

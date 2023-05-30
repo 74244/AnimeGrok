@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="anime__details__pic set-bg" data-setbg="{{ article.poster.url }}">
-                        <div class="comment"><i class="fa fa-comments"></i> {{article.get_review.count}}</div>
+                        <div class="comment"><i class="fa fa-comments"></i> {{article.reviews.count}}</div>
                         <div class="view"><i class="fa fa-eye"></i> {{article.viewers.count}}</div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         <div class="anime__details__btn">
-                            <form action="{% url 'sub' article.link %}" method="post">
+                            <form action="{% url 'add_subscription' article=article.pk user=user.pk %}" method="post">
                                 {% csrf_token %}
                                 <button class="follow-btn"><i class="fa fa-heart-o"></i> Follow
                                 </button>
@@ -112,30 +112,23 @@
                     <div class="section-title">
                         <h5>Reviews</h5>
                     </div>
-                    {% for review in article.get_review %}
-                    <div class="anime__review__item">
-                        <div class="anime__review__item__pic">
-                            <img src="" alt="">
-                        </div>
-                        <div class="anime__review__item__text">
-                            <h6>{{ review.user.username }} - <span>{{review.create_at|date:"d M Y"}}</span></h6>
-                            <p>{{ review.text }}</p>
-                        </div>
-                    </div>
-                    {% endfor %}
 
+                    {% include 'articles/reviews_list.html' %}
+            
                 </div>
                 <div class="anime__details__form">
                     <div class="section-title">
-                        <h5>Your Review</h5>
+                        <h5>Оставить отзыв</h5>
                     </div>
-                    <form action="{% url 'add-review' slug=article.link %}" method="post">
+                    <form method="post" action="{% url 'create-review' article.pk %}"  id="reviewForm" name="reviewForm" data-article-id="{{ article.pk }}">
                         {% csrf_token %}
-                        {{ review_form.text }}
-                        <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
+                        {{ form.text }}
+                        {{ form.parent }}
+                        <button type="submit" id="reviewSubmit"><i class="fa fa-location-arrow"></i> Добавить отзыв</button>
                     </form>
                 </div>
             </div>
+
             <div class="col-lg-4 col-md-4">
                 <div class="anime__details__sidebar">
                     <div class="section-title">
@@ -153,6 +146,7 @@
             </div>
         </div>
     </div>
+
 </section>
 <!-- Anime Section End -->
 {% endblock content %}

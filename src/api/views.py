@@ -6,7 +6,8 @@ from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer, Browsab
 
 from src.api.serializers import (ArticleListSerializer, ArticleDetailSerializer,
                                  UserNetListSerializer, UserNetDetailSerializer,
-                                 CategorySerializer, 
+                                 CategorySerializer, ActorSerializer, GenreSerializer,
+                                 RatingSerializer, ReviewSerializer, VideoSerializer
                                 )
 
 from src.api.permissions import IsStaffAdminOrReadOnly
@@ -55,3 +56,53 @@ class CategoryViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Category.objects.all()
 
+class ActorViewSet(viewsets.ModelViewSet):
+    """Актёры"""
+
+    serializer_class = ActorSerializer
+    permission_classes = [IsStaffAdminOrReadOnly]
+
+    def get_queryset(self):
+        return Actor.objects.all()
+    
+class GenreViewSet(viewsets.ModelViewSet):
+    """Жанры"""
+
+    serializer_class = GenreSerializer
+    permission_classes = [IsStaffAdminOrReadOnly]
+
+    def get_queryset(self):
+        return Genre.objects.all()
+    
+
+class RatingViewSet(viewsets.ModelViewSet):
+    """Рейтинг"""
+
+    serializer_class = RatingSerializer
+    permission_classes = [IsStaffAdminOrReadOnly]
+
+    def get_queryset(self):
+        return Rating.objects.all()
+
+
+
+#TODO Сделать рекурсив по отзывам
+class ReviewViewSet(viewsets.ModelViewSet):
+    """Отзывы"""
+
+    serializer_class = ReviewSerializer
+    permission_classes = [IsStaffAdminOrReadOnly]
+
+    def get_queryset(self):
+        return Review.objects.all()
+    
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
+
+class VideoViewSet(viewsets.ModelViewSet):
+    serializer_class = VideoSerializer
+    permission_classes = [IsStaffAdminOrReadOnly]
+
+    def get_queryset(self):
+        return Video.objects.all()

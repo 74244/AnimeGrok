@@ -6,7 +6,6 @@ from src.articles.models import  Article, Video, Category, Actor, Genre, Rating,
 from src.profiles.models import UserNet
 
 
-
 class UserNetListSerializer(serializers.ModelSerializer):
     """Вывод списка профилей"""
 
@@ -90,37 +89,43 @@ class CategorySerializer(serializers.ModelSerializer):
 class ActorSerializer(serializers.ModelSerializer):
     """ Актеры """
 
+    user = serializers.ReadOnlyField(source = 'user.username')
+    status = serializers.StringRelatedField(source = 'user.status')
+
     class Meta:
         model = Actor
-        fields = ("name", "description", "image", "age")
+        fields = ("user", "status", "description", "image", "age")
+    
 
 class GenreSerializer(serializers.ModelSerializer):
     """Жанры"""
 
     class Meta:
         model = Genre
-        fields = ("name")
+        fields = ("name",)
 
 class RatingSerializer(serializers.ModelSerializer):
     """Рейтинг"""
-
+    article = serializers.ReadOnlyField(source='article.title')
     class Meta:
         model = Rating
         fields = ("article", "star")
 
+
+
 class ReviewSerializer(serializers.ModelSerializer):
     """Отзывы"""
-
+    user = serializers.ReadOnlyField(source='user.username')
     class Meta:
         model = Review
-        fields = ("user", "article", "text", "parent", "create_at")
-
-# class VideoSerializer(serializers.ModelSerializer):
-#     """Видео эпизоды"""
-
-#     class Meta:
-#         model = Video
-#         fields = ("id", "episode", "get_absolute_url")
+        fields = ("user", "article", "text", "create_at")
     
-#     def get_queryset(self):
-#         return Video.objects.filter(pk=self.pk)
+
+class VideoSerializer(serializers.ModelSerializer):
+    """Видео эпизоды"""
+
+    article = serializers.StringRelatedField(source="article.title")
+
+    class Meta:
+        model = Video
+        fields = ("article","episode", "description","image", 'get_absolute_url')

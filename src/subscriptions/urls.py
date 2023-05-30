@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('<slug:link>', views.SubscriptionView.as_view(), name='sub')
+    path('<int:article>/<int:user>/', views.SubscriptionView.as_view(), name='add_subscription')
 ]

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'debug_toolbar',
     'ckeditor',
+    'mptt',
 
     'src.profiles.apps.ProfilesConfig',
     'src.articles.apps.ArticlesConfig',
@@ -157,7 +158,7 @@ INTERNAL_IPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 18,
+    'PAGE_SIZE': 12,
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',

@@ -6,4 +6,4 @@ from src.profiles.models import UserNet
 @admin.register(UserNet)
 class UserNetAdmin(admin.ModelAdmin):
     list_display = ('username', 'id', )
-
+    
