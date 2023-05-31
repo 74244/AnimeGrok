@@ -25,6 +25,8 @@ django-filter = "^23.1"
 celery = {extras = ["redis"], version = "^5.2.7"}
 drf-yasg = "^1.21.5"
 python-slugify = {extras = ["unidecode"], version = "^8.0.1"}
+django-recaptcha3 = "^0.4.0"
+django-modeltranslation = "^0.18.9"
 
 
 [build-system]

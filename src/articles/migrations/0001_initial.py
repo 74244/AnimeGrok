@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
                 ('activity', models.CharField(choices=[('Продолжается', 'Продолжается'), ('Завершён', 'Завершён')], default='Продолжается', verbose_name='Тип')),
                 ('duration', models.CharField(max_length=3, verbose_name='Длительность')),
                 ('quality', models.CharField(verbose_name='Качество')),
-                ('coutry', models.CharField(blank=True, max_length=100, null=True, verbose_name='Страна')),
+                ('country', models.CharField(blank=True, max_length=100, null=True, verbose_name='Страна')),
                 ('link', models.SlugField(blank=True, max_length=150, unique=True)),
                 ('poster', models.ImageField(blank=True, upload_to='posters/', verbose_name='Постер')),
                 ('season', models.CharField(blank=True, max_length=150, null=True, verbose_name='Сезон')),

@@ -8,8 +8,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="{% url 'home_page' %}"><i class="fa fa-home"></i> Home</a>
-                    <a href="{% url 'article-list' %}">Categories</a>
+                    <a href="{% url 'home_page' %}"><i class="fa fa-home"></i> Главная</a>
+                    <a href="{% url 'article-list' %}">Аниме</a>
                     <span>{{ article.category }}</span>
                 </div>
             </div>
@@ -56,11 +56,11 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <ul>
-                                        <li><span>Type:</span> {{ article.type }}</li>
-                                        <li><span>Studios:</span> {{ article.studio }}</li>
-                                        <li><span>Date aired:</span> {{ article.date_aired }}</li>
-                                        <li><span>Status:</span> {{ article.activity }}</li>
-                                        <li><span>Genre:</span> 
+                                        <li><span>Тип:</span> {{ article.type }}</li>
+                                        <li><span>Студия:</span> {{ article.studio }}</li>
+                                        <li><span>Дата выхода:</span> {{ article.date_aired }}</li>
+                                        <li><span>Статус:</span> {{ article.activity }}</li>
+                                        <li><span>Жанры:</span> 
                                             {% for genre in article.genres.all %}
                                             {{ genre.name }},
                                             {% endfor %}
@@ -69,11 +69,11 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <ul>
-                                        <li><span>Scores:</span> 7.31 / 1,515</li>
-                                        <li><span>Rating:</span> 8.5 / 161 times</li>
-                                        <li><span>Duration:</span> {{ article.duration }} min/ep</li>
-                                        <li><span>Quality:</span> {{ article.quality }}</li>
-                                        <li><span>Views:</span> {{ article.views }}</li>
+                                        {# <li><span>Голоса:</span> 7.31 / 1,515</li> #}
+                                        <li><span>Рейтинг:</span> 8.5 / 161 times</li>
+                                        <li><span>Длительность:</span> {{ article.duration }} min/ep</li>
+                                        <li><span>Качество:</span> {{ article.quality }}</li>
+                                        <li><span>Просмотры:</span> {{article.viewers.count}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -94,8 +94,6 @@
                                     </form>
                                 </div>
                             </div>
-
-                            <!-- <a href="" class="watch-btn"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a> -->
                         </div>
                     </div>
                 </div>
@@ -106,7 +104,7 @@
                 <div class="anime__video__player">
                     <div class="anime__details__episodes">
                         <div class="section-title">
-                            <h5>List Name</h5>
+                            <h5>Эпизоды</h5>
                         </div>
                         {% for item in article.article_episodes.all %}
                         <a href="{{item.get_absolute_url }}">{{item.episode}}</a>
@@ -120,7 +118,7 @@
             <div class="col-lg-8 col-md-8">
                 <div class="anime__details__review">
                     <div class="section-title">
-                        <h5>Reviews</h5>
+                        <h5>Отзывы</h5>
                     </div>
 
                     {% include 'articles/reviews_list.html' %}

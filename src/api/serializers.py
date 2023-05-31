@@ -65,7 +65,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ("id", "title", "title_alt", "description", "author", "type", "studio", "date_aired", 
-                  "activity", "category", "genres", "duration", "quality", "viewers_count", "coutry", 
+                  "activity", "category", "genres", "duration", "quality", "viewers_count", "country", 
                   "voicing", "link", "poster", "timing", "subtitles", "season", "series", 'video_episodes')
         
     def get_viewers_count(self, obj): # 4 запроса

@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, View, CreateView
 
 from src.base.mixins import CountViewerMixin
-from .forms import RatingForm, ReviewForm
-from .models import Article, Rating,  Genre, Review
-from .services import open_file
+from src.articles.forms import RatingForm, ReviewForm
+from src.articles.models import Article, Rating,  Genre, Review
+from src.articles.services import open_file
 
 
 

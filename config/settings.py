@@ -9,10 +9,9 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
-from pathlib import Path
-
 import os
+from pathlib import Path
+from django.utils.translation import gettext
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -27,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -35,18 +34,22 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     
-    'rest_framework',
-    'drf_yasg',
-    'debug_toolbar',
     'ckeditor',
+    'debug_toolbar',
+    'drf_yasg',
     'mptt',
+    'rest_framework',
+    'snowpenguin.django.recaptcha3',
 
     'src.api.apps.ApiConfig',
     'src.articles.apps.ArticlesConfig',
@@ -58,12 +61,14 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware', # Debug_toolbar
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -124,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -132,14 +137,21 @@ USE_I18N = True
 
 USE_TZ = True
 
+gettext = lambda s: s
+LANGUAGES = (
+    ('ru', gettext('Russia')),
+    ('en', gettext('English')),
+
+)
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [STATIC_DIR]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_DIR = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [STATIC_DIR]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -156,6 +168,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',

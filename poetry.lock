@@ -553,6 +553,22 @@ Django = ">=2.2"
 tests = ["coverage"]
 
 [[package]]
+name = "django-modeltranslation"
+version = "0.18.9"
+description = "Translates Django models using a registration approach."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-modeltranslation-0.18.9.tar.gz", hash = "sha256:d92bcd004e48946ae3824289ee76d36faa670f6e3da4a0412cdaeb4fc2526627"},
+    {file = "django_modeltranslation-0.18.9-py3-none-any.whl", hash = "sha256:f79ec5548053ffa2153b7b5ca646f59da1bf9e4c2c62085e21ead662a9c2faf8"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+typing-extensions = "*"
+
+[[package]]
 name = "django-mptt"
 version = "0.14.0"
 description = "Utilities for implementing Modified Preorder Tree Traversal with your Django Models and working with trees of Model instances."
@@ -569,6 +585,21 @@ django-js-asset = "*"
 
 [package.extras]
 tests = ["coverage", "mock-django"]
+
+[[package]]
+name = "django-recaptcha3"
+version = "0.4.0"
+description = "Django reCaptcha v3 field/widget"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-recaptcha3-0.4.0.tar.gz", hash = "sha256:cfeb612b27528ec58e358df1b4e507639ca0f90abeca20badb4beef47e49a070"},
+    {file = "django_recaptcha3-0.4.0-py3-none-any.whl", hash = "sha256:ff1b91b9ddda2753a7a63cd4badec89aabd3d1b067ece9aa68c56b964d5c9cc4"},
+]
+
+[package.dependencies]
+requests = "*"
 
 [[package]]
 name = "django-templated-mail"
@@ -1809,4 +1840,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "08462b24529fa04ede6aff16379b4f0769285376f4cde7330dea25425cfdbd54"
+content-hash = "2e264dc68787d99ca8240795093c0e504642b5607a47e999bd76210173678084"

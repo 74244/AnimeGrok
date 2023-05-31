@@ -76,7 +76,7 @@ class Article(models.Model):
     type = models.CharField("Тип", max_length=150, null=True, blank=True)
     studio = models.CharField("Студия", max_length=150, null=True, blank=True)
     date_aired = models.DateField("Дата выхода в эфир")
-    activity = models.CharField(verbose_name="Тип",choices=ACTIVITY_LIST, default='Продолжается')
+    activity = models.CharField(verbose_name="Статус",choices=ACTIVITY_LIST, default='Продолжается')
     category = models.ForeignKey(
         Category,
         verbose_name="Категория",
@@ -89,7 +89,7 @@ class Article(models.Model):
     duration = models.CharField("Длительность", max_length=3)
     quality = models.CharField("Качество")
     viewers = models.ManyToManyField(Viewer, verbose_name="Просмотры")
-    coutry = models.CharField("Страна", max_length=100, blank=True, null=True)
+    country = models.CharField("Страна", max_length=100, blank=True, null=True)
     voicing = models.ManyToManyField(
         Actor,
         verbose_name="Озвучивание",

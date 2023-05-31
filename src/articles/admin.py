@@ -1,12 +1,25 @@
+from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+# from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from modeltranslation.admin import TranslationAdmin
 
 from mptt.admin import DraggableMPTTAdmin
 from src.articles.models import (Category, Actor, Genre, Viewer, Article, 
                                  ArticleShot, RatingStar, Rating, Review, Video)
 
+# class ArticleAdminForm(forms.ModelForm):
+#     """Форма с виджетом ckeditor"""
+
+#     description_ru = forms.CharField(label='Описание', widget=CKEditorUploadingWidget)
+#     description_en = forms.CharField(label='Описание', widget=CKEditorUploadingWidget)
+
+#     class Meta:
+#         model = Article
+#         fields = '__all__'
+                                     
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin):
     list_display = ('name', 'description')
     search_fields = ('name',)
     search_help_text = 'Поиск по названию'
@@ -14,7 +27,7 @@ class CategoryAdmin(admin.ModelAdmin):
     save_on_top = True
 
 @admin.register(Actor)
-class ActorAdmin(admin.ModelAdmin):
+class ActorAdmin(TranslationAdmin):
     list_display = ('user', 'description', 'age', 'image')
     # search_fields = ('user',)             #FIXME:Исправить поиск
     # search_help_text = 'Поиск по никнейму'
@@ -22,7 +35,7 @@ class ActorAdmin(admin.ModelAdmin):
     save_on_top = True
 
 @admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
+class GenreAdmin(TranslationAdmin):
     list_display = ('name', 'description')
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
@@ -40,7 +53,7 @@ class ViewerAdmin(admin.ModelAdmin):
 
 
 @admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
+class ArticleAdmin(TranslationAdmin):
     list_display = ('title', 'title_alt', 'date_aired',  'activity', 'series', 'season', 
                     'get_reviews_count', 'get_viewers_count','user', 'on_main', 'get_poster_in_list',)
     prepopulated_fields = {'link': ('title_alt',)}
@@ -68,7 +81,7 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields':('genres',),
         }),
         (None, {
-            'fields':(('author', 'studio', 'coutry'), ('type','quality') ),
+            'fields':(('author', 'studio', 'country'), ('type','quality') ),
         }),
         (None, {
             'fields':(('activity', 'series'), 'date_aired'),

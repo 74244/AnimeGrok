@@ -1,7 +1,9 @@
 from django import forms
 from django.conf import settings
-from .models import Rating, RatingStar, Review
+
+from src.articles.models import Rating, RatingStar, Review
 from src.profiles.models import UserNet
+
 
 class RatingForm(forms.ModelForm):
     """Форма добавления рейтинга"""
@@ -19,4 +21,4 @@ class ReviewForm(forms.ModelForm):
     # text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Your review'}), required=False),
     class Meta:
         model = Review
-        fields = ('text',)
+        fields = ('text', )
