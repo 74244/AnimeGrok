@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static article_tag %}
+{% load static i18n article_tag %}
 
 {% block content %}
 <!-- Breadcrumb Begin -->
@@ -8,8 +8,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="{% url 'home_page' %}"><i class="fa fa-home"></i> Главная</a>
-                    <a href="{% url 'article-list' %}">Аниме</a>
+                    <a href="{% url 'home_page' %}"><i class="fa fa-home"></i>{% translate 'Главная' %}</a>
+                    <a href="{% url 'article-list' %}">{% translate 'Аниме' %}</a>
                     {# <span>Romance</span> #}
                 </div>
             </div>
@@ -28,14 +28,14 @@
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-6">
                                 <div class="section-title">
-                                    <h4>Romance</h4>
+                                    {# <h4>Romance</h4> #}
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6">
                                 <div class="product__page__filter">
-                                    <p>Сортировать по:</p>
+                                    <p>{% translate 'Сортировать по' %}:</p>
                                     <select>
-                                        <option value="">A-Z</option>
+                                        <option value="">{% translate 'A-Я' %}</option>
                                         <option value="">1-10</option>
                                         <option value="">10-50</option>
                                     </select>

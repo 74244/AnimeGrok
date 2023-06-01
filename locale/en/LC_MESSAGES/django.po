@@ -1,0 +1,163 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-31 20:29+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\templates\articles\article-details.html:11
+#: .\templates\articles\article-list.html:11 .\templates\footer.html:17
+msgid "Главная"
+msgstr "Home"
+
+#: .\templates\articles\article-details.html:12
+#: .\templates\articles\article-list.html:12 .\templates\footer.html:18
+#: .\templates\header.html:17
+msgid "Аниме"
+msgstr "Anime"
+
+#: .\templates\articles\article-details.html:59
+msgid "Тип"
+msgstr "Type"
+
+#: .\templates\articles\article-details.html:60
+msgid "Студия"
+msgstr "Studio"
+
+#: .\templates\articles\article-details.html:61
+msgid "Дата выхода"
+msgstr "Date aired"
+
+#: .\templates\articles\article-details.html:62
+msgid "Статус"
+msgstr "Status"
+
+#: .\templates\articles\article-details.html:63
+msgid "Жанры"
+msgstr "Genres"
+
+#: .\templates\articles\article-details.html:73
+msgid "Рейтинг"
+msgstr "Rating"
+
+#: .\templates\articles\article-details.html:74
+msgid "Длительность"
+msgstr "Duration"
+
+#: .\templates\articles\article-details.html:75
+msgid "Качество"
+msgstr "Quality"
+
+#: .\templates\articles\article-details.html:76
+msgid "Просмотры"
+msgstr "Views"
+
+#: .\templates\articles\article-details.html:86
+msgid "Следить"
+msgstr "Follow"
+
+#: .\templates\articles\article-details.html:92
+msgid "Порекомендовать"
+msgstr "Recommend"
+
+#: .\templates\articles\article-details.html:107
+msgid "Эпизоды"
+msgstr "Episodes"
+
+#: .\templates\articles\article-details.html:121
+msgid "Отзывы"
+msgstr "Reviews"
+
+#: .\templates\articles\article-details.html:129
+msgid "Оставить отзыв"
+msgstr "Leave a review"
+
+#: .\templates\articles\article-details.html:143 .\templates\home.html:75
+msgid "Последние добавленные"
+msgstr "Recently added"
+
+#: .\templates\articles\article-list.html:36
+msgid "Сортировать по"
+msgstr "Order by"
+
+#: .\templates\articles\article-list.html:38
+msgid "A-Я"
+msgstr "A-Z"
+
+#: .\templates\articles\home_slider_articles.html:12
+msgid "Смотреть"
+msgstr "Watch"
+
+#: .\templates\articles\list_new_reviews.html:4
+msgid "Новые отзывы"
+msgstr "New reviews"
+
+#: .\templates\articles\list_top_views.html:4
+msgid "ТОП просмотры"
+msgstr "TOP views"
+
+#: .\templates\articles\list_top_views.html:9
+msgid "День"
+msgstr "Day"
+
+#: .\templates\articles\list_top_views.html:10
+msgid "Неделя"
+msgstr "Week"
+
+#: .\templates\articles\list_top_views.html:11
+msgid "Месяц"
+msgstr "Month"
+
+#: .\templates\articles\list_top_views.html:12
+msgid "Год"
+msgstr "Year"
+
+#: .\templates\articles\reviews_list.html:15
+msgid "Ответить"
+msgstr "Reply"
+
+#: .\templates\footer.html:19 .\templates\header.html:21
+msgid "Наш блог"
+msgstr "Our Blog"
+
+#: .\templates\footer.html:20 .\templates\header.html:22
+msgid "Контакты"
+msgstr "Contacts"
+
+#: .\templates\header.html:19
+msgid "Регистрация"
+msgstr "Sign up"
+
+#: .\templates\header.html:20
+msgid "Авторизация"
+msgstr "Login"
+
+#: .\templates\home.html:22
+msgid "В этом сезоне"
+msgstr ""
+
+#: .\templates\home.html:27 .\templates\home.html:63 .\templates\home.html:80
+#: .\templates\home.html:116
+msgid "Просмотреть все"
+msgstr "View All"
+
+#: .\templates\home.html:58
+msgid "Рекомендуют"
+msgstr "Recommend"
+
+#: .\templates\home.html:111
+msgid "Дорамы"
+msgstr "Dorams"

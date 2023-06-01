@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static article_tag %}
+{% load static i18n article_tag %}
 
 {% block content %}
 <!-- Breadcrumb Begin -->
@@ -8,8 +8,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="{% url 'home_page' %}"><i class="fa fa-home"></i> Главная</a>
-                    <a href="{% url 'article-list' %}">Аниме</a>
+                    <a href="{% url 'home_page' %}"><i class="fa fa-home"></i>{% translate 'Главная' %}</a>
+                    <a href="{% url 'article-list' %}">{% translate 'Аниме' %}</a>
                     <span>{{ article.category }}</span>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="col-lg-3">
                     <div class="anime__details__pic set-bg" data-setbg="{{ article.poster.url }}">
                         <div class="comment"><i class="fa fa-comments"></i> {{article.reviews.count}}</div>
-                        <div class="view"><i class="fa fa-eye"></i> {{article.viewers.count}}</div>
+                        <div class="view"><i class="fa fa-eye"></i>{# {{article.viewers.count}} #} </div>
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -51,29 +51,29 @@
                             </div>
                             <span>{{article.ratings.count}}</span>
                         </div>
-                        <p>{{ article.description }}</p>
+                        
                         <div class="anime__details__widget">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <ul>
-                                        <li><span>Тип:</span> {{ article.type }}</li>
-                                        <li><span>Студия:</span> {{ article.studio }}</li>
-                                        <li><span>Дата выхода:</span> {{ article.date_aired }}</li>
-                                        <li><span>Статус:</span> {{ article.activity }}</li>
-                                        <li><span>Жанры:</span> 
+                                        <li><span>{% translate 'Тип' %}:</span> {{ article.type }}</li>
+                                        <li><span>{% translate 'Студия' %}:</span> {{ article.studio }}</li>
+                                        <li><span>{% translate 'Дата выхода' %}:</span> {{ article.date_aired }}</li>
+                                        <li><span>{% translate 'Статус' %}:</span> {{ article.activity }}</li>
+                                        <li><span>{% translate 'Жанры' %}:</span> 
                                             {% for genre in article.genres.all %}
-                                            {{ genre.name }},
+                                            {{ genre.name }}
                                             {% endfor %}
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <ul>
-                                        {# <li><span>Голоса:</span> 7.31 / 1,515</li> #}
-                                        <li><span>Рейтинг:</span> 8.5 / 161 times</li>
-                                        <li><span>Длительность:</span> {{ article.duration }} min/ep</li>
-                                        <li><span>Качество:</span> {{ article.quality }}</li>
-                                        <li><span>Просмотры:</span> {{article.viewers.count}}</li>
+                                        {# <li><span>{% translate 'Голоса' %}:</span> 7.31 / 1,515</li> #}
+                                        <li><span>{% translate 'Рейтинг' %}:</span> 8.5 / 161 times</li>
+                                        <li><span>{% translate 'Длительность' %}:</span> {{ article.duration }} min/ep</li>
+                                        <li><span>{% translate 'Качество' %}:</span> {{ article.quality }}</li>
+                                        <li><span>{% translate 'Просмотры' %}:</span> {# {{article.viewers.count}} #}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -81,20 +81,23 @@
                         <div class="anime__details__btn">
                             <div>
                                 <div class="row">
-                                    <form action="{% url 'add_subscription' article=article.pk user=user.pk %}" method="post">
+                                    
+                                    <form action="{% if user.is_authenticated %} {% url 'add_subscription' article=article.pk user=user.pk %} {% endif %}" method="post">
                                         {% csrf_token %}
-                                        <button class="follow-btn"><i class="fa fa-heart-o"></i> Следить
+                                        <button class="follow-btn"><i class="fa fa-heart-o"></i> {% translate 'Следить' %}
                                         </button>
                                     </form>
         
-                                    <form action="{% url 'create_recarticle' article=article.pk user=user.pk %}" method="post">
+                                    <form action="{% if user.is_authenticated %} {% url 'create_recarticle' article=article.pk user=user.pk %} {% endif %}" method="post">
                                         {% csrf_token %}
-                                        <button class="follow-btn"><i class="fa fa-heart-o"></i> Порекомендовать
+                                        <button class="follow-btn"><i class="fa fa-heart-o"></i> {% translate 'Порекомендовать' %}
                                         </button>
                                     </form>
+                                    
                                 </div>
                             </div>
                         </div>
+                        <p>{{ article.description|safe }}</p>
                     </div>
                 </div>
             </div>
@@ -104,7 +107,7 @@
                 <div class="anime__video__player">
                     <div class="anime__details__episodes">
                         <div class="section-title">
-                            <h5>Эпизоды</h5>
+                            <h5>{% translate 'Эпизоды' %}</h5>
                         </div>
                         {% for item in article.article_episodes.all %}
                         <a href="{{item.get_absolute_url }}">{{item.episode}}</a>
@@ -118,7 +121,7 @@
             <div class="col-lg-8 col-md-8">
                 <div class="anime__details__review">
                     <div class="section-title">
-                        <h5>Отзывы</h5>
+                        <h5>{% translate 'Отзывы' %}</h5>
                     </div>
 
                     {% include 'articles/reviews_list.html' %}
@@ -126,7 +129,7 @@
                 </div>
                 <div class="anime__details__form">
                     <div class="section-title">
-                        <h5>Оставить отзыв</h5>
+                        <h5>{% translate 'Оставить отзыв' %}</h5>
                     </div>
                     <form method="post" action="{% url 'create-review' article.pk %}"  id="reviewForm" name="reviewForm" data-article-id="{{ article.pk }}">
                         {% csrf_token %}
@@ -140,13 +143,13 @@
             <div class="col-lg-4 col-md-4">
                 <div class="anime__details__sidebar">
                     <div class="section-title">
-                        <h5>Последние добавленные</h5>
+                        <h5>{% translate 'Последние добавленные' %}</h5>
                     </div>
                     {% get_last_articles quantity=4 as last_articles %}
                     {% for item in last_articles %}
                     <div class="product__sidebar__view__item set-bg" data-setbg="{{item.poster.url}}">
                         <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
-                        <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
+                        <div class="view"><i class="fa fa-eye"></i>{# {{item.viewers.count}} #} </div>
                         <h5><a href="{{item.get_absolute_url}}">{{item.title}}</a></h5>
                     </div>
                     {% endfor %}

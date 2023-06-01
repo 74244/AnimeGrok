@@ -1,14 +1,15 @@
+{% load static i18n %}
 <div class="product__sidebar__view">
     <div class="section-title">
-        <h5>ТОП просмотры:</h5>
+        <h5>{% translate 'ТОП просмотры' %}:</h5>
     </div>
     <div>
         <form action="{% url 'top_views_filter' %}" method="get" name="filter">
             <ul class="filter__controls">
-                <li class="active"><button type="submit">Day</button></li>
-                <li><button type="submit">Week</button></li>
-                <li><button type="submit">Month</button></li>
-                <li><button type="submit">Year</button></li>
+                <li class="active"><button type="submit">{% translate 'День' %}</button></li>
+                <li><button type="submit">{% translate 'Неделя' %}</button></li>
+                <li><button type="submit">{% translate 'Месяц' %}</button></li>
+                <li><button type="submit">{% translate 'Год' %}</button></li>
             </ul>
         </form>
     </div>

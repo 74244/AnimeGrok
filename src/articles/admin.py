@@ -1,23 +1,24 @@
 from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-# from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from modeltranslation.admin import TranslationAdmin
 
 from mptt.admin import DraggableMPTTAdmin
 from src.articles.models import (Category, Actor, Genre, Viewer, Article, 
                                  ArticleShot, RatingStar, Rating, Review, Video)
 
-# class ArticleAdminForm(forms.ModelForm):
-#     """Форма с виджетом ckeditor"""
+class ArticleAdminForm(forms.ModelForm):
+    """Форма с виджетом ckeditor"""
 
-#     description_ru = forms.CharField(label='Описание', widget=CKEditorUploadingWidget)
-#     description_en = forms.CharField(label='Описание', widget=CKEditorUploadingWidget)
+    description_ru = forms.CharField(label='Описание', widget=CKEditorUploadingWidget())
+    description_en = forms.CharField(label='Описание', widget=CKEditorUploadingWidget())
 
-#     class Meta:
-#         model = Article
-#         fields = '__all__'
-                                     
+    class Meta:
+        model = Article
+        fields = '__all__'
+
+
 @admin.register(Category)
 class CategoryAdmin(TranslationAdmin):
     list_display = ('name', 'description')
@@ -36,7 +37,8 @@ class ActorAdmin(TranslationAdmin):
 
 @admin.register(Genre)
 class GenreAdmin(TranslationAdmin):
-    list_display = ('name', 'description')
+    list_display = ('name', 'description',)
+    # list_editable = ('name_en')
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
     search_help_text = 'Поиск по названию'
@@ -56,11 +58,14 @@ class ViewerAdmin(admin.ModelAdmin):
 class ArticleAdmin(TranslationAdmin):
     list_display = ('title', 'title_alt', 'date_aired',  'activity', 'series', 'season', 
                     'get_reviews_count', 'get_viewers_count','user', 'on_main', 'get_poster_in_list',)
+    list_display_links = ('title',)
     prepopulated_fields = {'link': ('title_alt',)}
     search_fields = ('title',)
     save_as = True
     save_on_top = True
     readonly_fields = ('get_poster_in_article',)
+    form = ArticleAdminForm
+    ordering = ('id',)
     fieldsets = (
         (None, {
             'fields':('on_main',),
@@ -124,7 +129,7 @@ class ReviewAdmin(DraggableMPTTAdmin):
     list_filter = ('create_at',)
 
 @admin.register(ArticleShot)
-class ArticleShotAdmin(admin.ModelAdmin):
+class ArticleShotAdmin(TranslationAdmin):
     list_display = ('article', 'title', 'description', 'image')
     save_as = True
     save_on_top = True
@@ -134,14 +139,19 @@ class RatingAdmin(admin.ModelAdmin):
     list_display = ('article', 'star')
     
 @admin.register(Video)
-class VideoAdmin(admin.ModelAdmin):
-    list_display = ('article', 'episode', 'title',  'create_at')
+class VideoAdmin(TranslationAdmin):
+    list_display = ('article', 'episode', 'title',  'create_at', 'file')
+    list_editable = ('episode', 'file')
     search_fields = ('article',)
     save_as = True
+    ordering = ('-episode',)
     save_on_top = True
     fieldsets = (
         (None, {
-            'fields':(('article', 'episode', 'title'),),
+            'fields':('article',),
+        }),
+        (None, {
+            'fields':(('episode', 'title'),),
         }),
         (None, {
             'fields':('file', 'image'),

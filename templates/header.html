@@ -1,4 +1,4 @@
-{% load static %}
+{% load i18n static %}
 
 <header class="header">
     <div class="container">
@@ -14,12 +14,12 @@
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li><a href="{% url 'article-list' %}">Аниме</a></li>
+                            <li><a href="{% url 'article-list' %}">{% translate 'Аниме' %}</a></li>
                             <li><a href="./blog-details.html">Blog Details</a></li>
-                            <li><a href="./signup.html">Sign Up</a></li>
-                            <li><a href="./login.html">Login</a></li>
-                            <li><a href="./blog.html">Our Blog</a></li>
-                            <li><a href="#">Contacts</a></li>
+                            <li><a href="./blog.html">{% translate 'Наш блог' %}</a></li>
+                            <li><a href="#">{% translate 'Контакты' %}</a></li>
+                            <li><a href="./signup.html">{% translate 'Регистрация' %}</a></li>
+                            <li><a href="./login.html">{% translate 'Авторизация' %}</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -29,6 +29,22 @@
                     <a href="#" class="search-switch"><span class="icon_search"></span></a>
                     <a href="./login.html"><span class="icon_profile"></span></a>
                 </div>
+            </div>
+            <div>
+                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                    <select name="language">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                {{ language.name_local }} ({{ language.code }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Go">
+                </form>
             </div>
         </div>
         <div id="mobile-menu-wrap"></div>

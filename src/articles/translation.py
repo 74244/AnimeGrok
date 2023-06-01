@@ -1,5 +1,5 @@
 from modeltranslation.translator import register, TranslationOptions
-from src.articles.models import Category, Actor, Genre, Article, Review, Video
+from src.articles.models import Category, Actor, Genre, Article, Video, ArticleShot
 
 @register(Category)
 class CategoryTranslationOptions(TranslationOptions):
@@ -7,7 +7,7 @@ class CategoryTranslationOptions(TranslationOptions):
 
 @register(Actor)
 class ActorTranslationOptions(TranslationOptions):
-    fields = ('user', 'description')
+    fields = ('description',)
 
 @register(Genre)
 class GenreTranslationOptions(TranslationOptions):
@@ -15,5 +15,12 @@ class GenreTranslationOptions(TranslationOptions):
 
 @register(Article)
 class ArticleTranslationOptions(TranslationOptions):
-    fields = ('title', 'description', 'country', 'season')
+    fields = ('title', 'description', 'author', 'type', 'studio', 'activity', 'duration', 'country', 'season')
 
+@register(ArticleShot)
+class ArticleShotTranslationOptions(TranslationOptions):
+    fields = ('title', 'description')
+
+@register(Video)
+class VideoTranslationOptions(TranslationOptions):
+    fields = ('title',)

@@ -67,6 +67,8 @@ class Article(models.Model):
     ACTIVITY_LIST = (
         ('Продолжается', 'Продолжается'),
         ('Завершён', 'Завершён'),
+        ('Airling', 'Airling'),
+        ('Completed', 'Completed'),
 
     )
     title = models.CharField("Название", max_length=150)
@@ -224,3 +226,4 @@ class Video(models.Model):
     
     class Meta:
         verbose_name_plural = "Видео"
+        ordering = ('episode',)

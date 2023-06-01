@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static article_tag %}
+{% load static i18n article_tag %}
     
 {% block content %}
 <!-- Hero Section Begin -->
@@ -19,12 +19,12 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="section-title">
-                                <h4>В этом сезоне</h4>
+                                <h4>{% translate 'В этом сезоне' %}</h4>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+                                <a href="{% url 'article-list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
@@ -55,12 +55,12 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="section-title">
-                                <h4>Рекомендуют</h4>
+                                <h4>{% translate 'Рекомендуют' %}</h4>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+                                <a href="{% url 'article-list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
@@ -72,12 +72,12 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="section-title">
-                                <h4>Последние добавленные</h4>
+                                <h4>{% translate 'Последние добавленные' %}</h4>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+                                <a href="{% url 'article-list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
@@ -108,12 +108,12 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="section-title">
-                                <h4>Дорамы</h4>
+                                <h4>{% translate 'Дорамы' %}</h4>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+                                <a href="{% url 'article-list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>

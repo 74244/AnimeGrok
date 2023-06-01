@@ -1,4 +1,4 @@
-{% load mptt_tags static %}
+{% load i18n mptt_tags static %}
 <div class="nested-reviews">
     {% recursetree article.reviews.all %}
     <ul id="review-thread-{{node.pk}}">
@@ -12,7 +12,7 @@
                     <p>{{ node.text }}</p>
                     
                 </div>
-                <a class="btn btn-sm btn-primary btn-reply" href="#reviewForm" data-review-id="{{ node.pk }}" data-review-username="{{ node.author }}">Ответить</a>
+                <a class="btn btn-sm btn-primary btn-reply" href="#reviewForm" data-review-id="{{ node.pk }}" data-review-username="{{ node.author }}">{% translate 'Ответить' %}</a>
             </div>
         </li>
         {% if not node.is_leaf_node %} {{ children }} {% endif %}

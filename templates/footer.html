@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 
 <footer class="footer">
     <div class="page-up">
@@ -14,10 +14,10 @@
             <div class="col-lg-6">
                 <div class="footer__nav">
                     <ul>
-                        <li class="active"><a href="{% url 'home_page' %}">Homepage</a></li>
-                        <li><a href="{% url 'article-list' %}">Categories</a></li>
-                        <li><a href="./blog.html">Our Blog</a></li>
-                        <li><a href="#">Contacts</a></li>
+                        <li class="active"><a href="{% url 'home_page' %}"><i class="fa fa-home"></i>{% translate 'Главная' %}</a></li>
+                        <li><a href="{% url 'article-list' %}">{% translate 'Аниме' %}</a></li>
+                        <li><a href="./blog.html">{% translate 'Наш блог' %}</a></li>
+                        <li><a href="#">{% translate 'Контакты' %}</a></li>
                     </ul>
                 </div>
             </div>
