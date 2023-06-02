@@ -4,7 +4,6 @@ from src.articles.models import Viewer
 class CountViewerMixin:
 
     def get_client_ip(self, request):
-        print('-----------5')
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
         if x_forwarded_for:
             ip = x_forwarded_for.split(',')[0]

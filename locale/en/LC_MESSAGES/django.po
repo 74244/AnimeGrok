@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-31 20:29+0500\n"
+"POT-Creation-Date: 2023-06-02 10:22+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,82 +18,537 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\templates\articles\article-details.html:11
-#: .\templates\articles\article-list.html:11 .\templates\footer.html:17
+#: .\config\settings.py:177
+msgid "Russia"
+msgstr "Russia"
+
+#: .\config\settings.py:178
+msgid "English"
+msgstr "English"
+
+#: .\templates\account\account_inactive.html:5
+#: .\templates\account\account_inactive.html:8
+msgid "Аккаунт не активен"
+msgstr "Account Inactive"
+
+#: .\templates\account\account_inactive.html:10
+msgid "Этот аккаунт не активен."
+msgstr "This account is inactive."
+
+#: .\templates\account\email.html:5 .\templates\account\email.html:8
+msgid "Адрес электронной почты"
+msgstr "E-mail Addresses"
+
+#: .\templates\account\email.html:10
+msgid "Следующие адреса электронной почты связаны с вашей учетной записью:"
+msgstr "The following e-mail addresses are associated with your account"
+
+#: .\templates\account\email.html:24
+msgid "Проверено"
+msgstr "Verified"
+
+#: .\templates\account\email.html:26
+msgid "Непроверенный"
+msgstr "Unverified"
+
+#: .\templates\account\email.html:28
+msgid "Основной"
+msgstr "Primary"
+
+#: .\templates\account\email.html:34
+msgid "Сделать основной"
+msgstr "Make Primary"
+
+#: .\templates\account\email.html:35
+#, fuzzy
+#| msgid "Оставить отзыв"
+msgid "Отправить подтверждение"
+msgstr "Leave a review"
+
+#: .\templates\account\email.html:36
+#: .\templates\socialaccount\connections.html:35
+msgid "Удалить"
+msgstr "Remove"
+
+#: .\templates\account\email.html:43
+msgid "Предупреждение:"
+msgstr "Warning"
+
+#: .\templates\account\email.html:43
+msgid ""
+"В настоящее время у вас нет настроенного адреса электронной почты. Вы "
+"действительно должны добавить адрес электронной почты, чтобы вы могли "
+"получать уведомления, сбрасывать пароль и т.д."
+msgstr ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+
+#: .\templates\account\email.html:48
+msgid "Добавить адрес электронной почты"
+msgstr "Add E-mail Address"
+
+#: .\templates\account\email.html:53
+msgid "Добавить"
+msgstr "Add E-mail"
+
+#: .\templates\account\email.html:63
+msgid "Вы действительно хотите удалить выбранный адрес электронной почты?"
+msgstr "Do you really want to remove the selected e-mail address"
+
+#: .\templates\account\email\account_already_exists_message.txt:4
+#, python-format
+msgid ""
+"Вы получили это электронное письмо, потому что вы или кто-то другой пытался "
+"подписаться на\n"
+"учетная запись с использованием адреса электронной почты:\n"
+"\n"
+"%(email)s\n"
+"\n"
+"Однако учетная запись, использующая этот адрес электронной почты, уже "
+"существует. Если вы забыли об этом, воспользуйтесь процедурой восстановления "
+"пароля\n"
+"ваша учетная запись:\n"
+"\n"
+"%(password_reset_url)s"
+msgstr ""
+"You are receiving this e-mail because you or someone else tried to signup "
+"for anaccount using e-mail address:\n"
+"%(email)s\n"
+"\n"
+"However, an account using that e-mail address already exists.  In case you "
+"have forgotten about this,please use the password forgotten procedure to "
+"recoveryour account:"
+
+#: .\templates\account\email\account_already_exists_subject.txt:3
+msgid "Аккаунт уже существует"
+msgstr "Account Already Exists"
+
+#: .\templates\account\email\base_message.txt:1
+#, python-format
+msgid "Привет из%(site_name)s!"
+msgstr "Hello from %(site_name)s!"
+
+#: .\templates\account\email\base_message.txt:5
+#, python-format
+msgid ""
+"Спасибо за использование %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+"Thank you for using %(site_name)s!\n"
+"%(site_domain)s"
+
+#: .\templates\account\email\email_confirmation_message.txt:5
+#, python-format
+msgid ""
+"Вы получили это электронное письмо, потому что пользователь %(user_display)s "
+"предоставил ваш адрес электронной почты для регистрации учетной записи на "
+"%(site_domain)s.\n"
+"\n"
+"Чтобы подтвердить правильность, перейдите к %(activate_url)s"
+msgstr ""
+"You're receiving this e-mail because user %(user_display)s has given your e-"
+"mail address to register an account on %(site_domain)s.\n"
+"\n"
+"To confirm this is correct, go to%(activate_url)s"
+
+#: .\templates\account\email\email_confirmation_subject.txt:3
+msgid "Пожалуйста, подтвердите адрес вашей электронной почты"
+msgstr "Please Confirm Your E-mail Address"
+
+#: .\templates\account\email\password_reset_key_message.txt:4
+msgid ""
+"Вы получили это электронное письмо, потому что вы или кто-то другой "
+"запросили пароль для вашей учетной записи пользователя.\n"
+"Его можно смело игнорировать, если вы не запрашивали сброс пароля. Нажмите "
+"на ссылку ниже, чтобы сбросить пароль."
+msgstr ""
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset the link "
+"below to reset your password."
+
+#: .\templates\account\email\password_reset_key_message.txt:9
+#, python-format
+msgid "Если вы забыли, ваше имя пользователя %(username)s."
+msgstr "In case you forgot, your username is %(username)s. "
+
+#: .\templates\account\email\password_reset_key_subject.txt:3
+#: .\templates\account\email\unknown_account_subject.txt:3
+msgid "Электронная почта для сброса пароля"
+msgstr "Password Reset E-mail"
+
+#: .\templates\account\email\unknown_account_message.txt:4
+#, python-format
+msgid ""
+"Вы получили это электронное письмо, \n"
+"потому что вы или кто-то другой запросили пароль для вашей учетной записи "
+"пользователя. \n"
+"Однако в нашей базе данных нет ни одной записи о пользователе с адресом "
+"электронной почты %(email)s.\n"
+"\n"
+"Это письмо можно смело игнорировать, если вы не запрашивали сброс пароля.\n"
+"\n"
+"Если это были вы, вы можете зарегистрировать учетную запись, используя "
+"ссылку ниже."
+msgstr ""
+"You are receiving this e-mail, \n"
+"because you or someone else has requested a password for your user account.\n"
+"However, we do not have any record of a user with email %(email)s.\n"
+"\n"
+"This mail can be safely ignored if you did not request a password reset.\n"
+"\n"
+"If it was you, you can sign up for an account using the link below."
+
+#: .\templates\account\email_confirm.html:6
+#: .\templates\account\email_confirm.html:10
+msgid "Подтвердите адрес электронной почты"
+msgstr "Confirm E-mail Address"
+
+#: .\templates\account\email_confirm.html:16
+#, python-format
+msgid ""
+" Пожалуйста, подтвердите, что <a href=\"mailto:%(email)s\">%(email)s</a> это "
+"адрес электронной почты для пользователя %(user_display)s."
+msgstr ""
+" Please confirm that is an <a href=\"mailto:%(email)s\">%(email)s</a> e-mail "
+"address for useris an e-mail address for user %(user_display)s."
+
+#: .\templates\account\email_confirm.html:20
+#, fuzzy
+#| msgid "Следить"
+msgid "Подтвердить"
+msgstr "Follow"
+
+#: .\templates\account\email_confirm.html:27
+#, python-format
+msgid ""
+"Срок действия этой ссылки для подтверждения по электронной почте истек или "
+"она недействительна. Пожалуйста <a href=\"%(email_url)s\"> отправьте новый "
+"запрос подтверждения по электронной почте</a>."
+msgstr ""
+"This e-mail confirmation link expired oris invalid. Please <a href="
+"\"%(email_url)s\"> Please issue a new e-mail confirmation request</a>."
+
+#: .\templates\account\login.html:6 .\templates\account\login.html:15
+#: .\templates\account\login.html:30
+msgid "Авторизация"
+msgstr "Login"
+
+#: .\templates\account\login.html:44 .\templates\account\signup.html:53
+#: .\templates\socialaccount\login.html:4
+msgid "Авторизоваться"
+msgstr "Log In"
+
+#: .\templates\account\login.html:45
+msgid "Забыли пароль"
+msgstr "Forgot Password"
+
+#: .\templates\account\login.html:54
+msgid "Нет учетной записи"
+msgstr "Dont’t Have An Account"
+
+#: .\templates\account\login.html:55 .\templates\account\signup.html:51
+#: .\templates\socialaccount\signup.html:5
+#: .\templates\socialaccount\signup.html:8
+#: .\templates\socialaccount\signup.html:19
+msgid "Зарегистрироваться"
+msgstr "Register"
+
+#: .\templates\account\login.html:63
+msgid "ИЛИ"
+msgstr "OR"
+
+#: .\templates\account\logout.html:5 .\templates\account\logout.html:8
+#: .\templates\account\logout.html:17
+msgid "Выход"
+msgstr "Sign Out"
+
+#: .\templates\account\logout.html:10
+msgid "Вы уверены, что хотите выйти?"
+msgstr "Are you sure you want to sign out?"
+
+#: .\templates\account\messages\cannot_delete_primary_email.txt:2
+#, python-format
+msgid "Вы не можете удалить свой основной адрес электронной почты (%(email)s)."
+msgstr "You cannot remove your primary e-mail address"
+
+#: .\templates\account\messages\email_confirmation_sent.txt:2
+#, python-format
+msgid "Электронное письмо с подтверждением отправлено на%(email)s."
+msgstr "Confirmation e-mail sent to %(email)s"
+
+#: .\templates\account\messages\email_confirmed.txt:2
+#, python-format
+msgid "Вы подтвердили %(email)s."
+msgstr "You have confirmed %(email)s."
+
+#: .\templates\account\messages\email_deleted.txt:2
+#, python-format
+msgid "Удален адрес электронной почты %(email)s."
+msgstr "Removed e-mail address %(email)s"
+
+#: .\templates\account\messages\logged_in.txt:4
+#, python-format
+msgid "Вы успешно вошли как %(name)s."
+msgstr "Successfully signed in as %(name)s."
+
+#: .\templates\account\messages\logged_out.txt:2
+msgid "Вы вышли из аккаунта."
+msgstr "You have signed out."
+
+#: .\templates\account\messages\password_changed.txt:2
+msgid "Пароль успешно изменен."
+msgstr "Password successfully changed."
+
+#: .\templates\account\messages\password_set.txt:2
+msgid "Пароль успешно установлен."
+msgstr "Password successfully set."
+
+#: .\templates\account\messages\primary_email_set.txt:2
+msgid "Установлен основной адрес электронной почты."
+msgstr "Primary e-mail address set."
+
+#: .\templates\account\messages\unverified_primary_email.txt:2
+msgid "Ваш основной адрес электронной почты должен быть подтвержден.."
+msgstr "Your primary e-mail address must be verified."
+
+#: .\templates\account\password_change.html:5
+#: .\templates\account\password_change.html:8
+#: .\templates\account\password_change.html:13
+#: .\templates\account\password_reset_from_key.html:4
+#: .\templates\account\password_reset_from_key.html:7
+#: .\templates\account\password_reset_from_key.html:16
+#: .\templates\account\password_reset_from_key_done.html:4
+#: .\templates\account\password_reset_from_key_done.html:7
+msgid "Изменить пароль"
+msgstr "Change Password"
+
+#: .\templates\account\password_change.html:14
+msgid "Забыли пароль?"
+msgstr "Forgot Password?"
+
+#: .\templates\account\password_reset.html:6
+#: .\templates\account\password_reset.html:10
+#: .\templates\account\password_reset_done.html:6
+#: .\templates\account\password_reset_done.html:9
+msgid "Восстановление пароля"
+msgstr "Password Reset"
+
+#: .\templates\account\password_reset.html:15
+msgid ""
+"Забыли пароль? Введите свой адрес электронной почты ниже, и мы вышлем вам "
+"электронное письмо, позволяющее сбросить его."
+msgstr ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+
+#: .\templates\account\password_reset.html:20
+msgid "Сбросить пароль"
+msgstr "Reset My Password"
+
+#: .\templates\account\password_reset.html:23
+msgid ""
+"Пожалуйста, свяжитесь с нами, если у вас возникнут проблемы со сбросом "
+"пароля."
+msgstr "Please contact us if you have any trouble resetting your password."
+
+#: .\templates\account\password_reset_done.html:15
+msgid ""
+"Мы отправили вам электронное письмо. Если вы не получили его, пожалуйста, "
+"проверьте папку со спамом. В противном случае свяжитесь с нами, если вы не "
+"получили его в течение нескольких минут."
+msgstr ""
+"We have sent you an e-mail. If you have not received it please check your "
+"spam folder. Otherwise contact us if you do not receive it in a few minutes."
+
+#: .\templates\account\password_reset_from_key.html:7
+msgid "Плохой токен"
+msgstr "Bad Token"
+
+#: .\templates\account\password_reset_from_key.html:11
+#, python-format
+msgid ""
+"Ссылка для сброса пароля недействительна, возможно, потому, что она уже "
+"использовалась. Пожалуйста, запросите <a href=\"%(passwd_reset_url)s\">новый "
+"сброс пароля</a>."
+msgstr ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a <a href=\"%(passwd_reset_url)s\">new password reset"
+
+#: .\templates\account\password_reset_from_key_done.html:8
+msgid "Ваш пароль теперь изменен."
+msgstr "Your password is now changed."
+
+#: .\templates\account\password_set.html:5
+#: .\templates\account\password_set.html:8
+#: .\templates\account\password_set.html:13
+#, fuzzy
+#| msgid "Оставить отзыв"
+msgid "Установить пароль"
+msgstr "Leave a review"
+
+#: .\templates\account\signup.html:5 .\templates\account\signup.html:14
+#: .\templates\account\signup.html:29
+msgid "Регистрация"
+msgstr "Sign Up"
+
+#: .\templates\account\signup.html:53
+msgid "У вас уже есть аккаунт?"
+msgstr "Already have an account?"
+
+#: .\templates\account\signup_closed.html:5
+#: .\templates\account\signup_closed.html:8
+#, fuzzy
+#| msgid "Регистрация"
+msgid "Регистрация закрыта"
+msgstr "Sign Up Closed"
+
+#: .\templates\account\signup_closed.html:10
+msgid "Извините, но регистрация в настоящее время закрыта."
+msgstr "We are sorry, but the sign up is currently closed."
+
+#: .\templates\account\snippets\already_logged_in.html:5
+msgid "Примечание"
+msgstr "Note"
+
+#: .\templates\account\snippets\already_logged_in.html:5
+#, python-format
+msgid "Вы уже вошли как %(user_display)s."
+msgstr "you are already logged in as %(user_display)s."
+
+#: .\templates\account\verification_sent.html:5
+#: .\templates\account\verification_sent.html:8
+#: .\templates\account\verified_email_required.html:5
+#: .\templates\account\verified_email_required.html:8
+msgid "Проверьте свой адрес электронной почты"
+msgstr "Verify Your E-mail Address"
+
+#: .\templates\account\verification_sent.html:10
+msgid ""
+"Мы отправили вам электронное письмо для проверки. Перейдите по "
+"предоставленной ссылке, чтобы завершить процесс регистрации. Если вы не "
+"видите письмо с подтверждением в своем основном почтовом ящике, проверьте "
+"папку со спамом. Пожалуйста, свяжитесь с нами, если вы не получили "
+"электронное письмо с подтверждением в течение нескольких минут..."
+msgstr ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. If you do not see the verification e-mail in "
+"your main inbox, check your spam folder. Please contact us if you do not "
+"receive the verification e-mail within a few minutes."
+
+#: .\templates\account\verified_email_required.html:12
+msgid ""
+"Эта часть сайта требует от нас подтверждения того, что\n"
+"    ты тот, за кого себя выдаешь. Для этого мы требуем, чтобы вы\n"
+"    подтвердить право собственности на свой адрес электронной почты. "
+msgstr ""
+"This part of the site requires us to verify that\n"
+"    you are who you claim to be. For this purpose, we require that you\n"
+"    verify ownership of your e-mail address. "
+
+#: .\templates\account\verified_email_required.html:16
+msgid ""
+"Мы отправили вам электронное письмо для проверки. Пожалуйста, нажмите на "
+"ссылку внутри этого электронного письма. \n"
+"    Если вы не видите письмо с подтверждением в своем основном почтовом "
+"ящике, проверьте папку со спамом. В противном случае\n"
+"    свяжитесь с нами, если вы не получили его в течение нескольких минут."
+msgstr ""
+"We have sent an e-mail to you for verification. Please click on the link "
+"inside that e-mail. \n"
+"    If you do not see the verification e-mail in your main inbox, check your "
+"spam folder. Otherwise\n"
+"    contact us if you do not receive it within a few minutes."
+
+#: .\templates\account\verified_email_required.html:20
+#, python-format
+msgid ""
+"<strong>Примечание:</strong> ты все еще можешь <a href=\"%(email_url)s"
+"\">изменить свой адрес электронной почты</a>."
+msgstr ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\"> change your "
+"e-mail address</a>."
+
+#: .\templates\articles\article-details.html:12
+#: .\templates\articles\article-list.html:12 .\templates\footer.html:17
 msgid "Главная"
 msgstr "Home"
 
-#: .\templates\articles\article-details.html:12
-#: .\templates\articles\article-list.html:12 .\templates\footer.html:18
+#: .\templates\articles\article-details.html:13
+#: .\templates\articles\article-list.html:13 .\templates\footer.html:18
 #: .\templates\header.html:17
 msgid "Аниме"
 msgstr "Anime"
 
-#: .\templates\articles\article-details.html:59
+#: .\templates\articles\article-details.html:60
 msgid "Тип"
 msgstr "Type"
 
-#: .\templates\articles\article-details.html:60
+#: .\templates\articles\article-details.html:61
 msgid "Студия"
 msgstr "Studio"
 
-#: .\templates\articles\article-details.html:61
+#: .\templates\articles\article-details.html:62
 msgid "Дата выхода"
 msgstr "Date aired"
 
-#: .\templates\articles\article-details.html:62
+#: .\templates\articles\article-details.html:63
 msgid "Статус"
 msgstr "Status"
 
-#: .\templates\articles\article-details.html:63
+#: .\templates\articles\article-details.html:64
 msgid "Жанры"
 msgstr "Genres"
 
-#: .\templates\articles\article-details.html:73
+#: .\templates\articles\article-details.html:74
 msgid "Рейтинг"
 msgstr "Rating"
 
-#: .\templates\articles\article-details.html:74
+#: .\templates\articles\article-details.html:75
 msgid "Длительность"
 msgstr "Duration"
 
 #: .\templates\articles\article-details.html:75
+msgid "мин/эпизод"
+msgstr "min/episode"
+
+#: .\templates\articles\article-details.html:76
 msgid "Качество"
 msgstr "Quality"
 
-#: .\templates\articles\article-details.html:76
+#: .\templates\articles\article-details.html:77
 msgid "Просмотры"
 msgstr "Views"
 
-#: .\templates\articles\article-details.html:86
+#: .\templates\articles\article-details.html:88
 msgid "Следить"
 msgstr "Follow"
 
-#: .\templates\articles\article-details.html:92
+#: .\templates\articles\article-details.html:94
 msgid "Порекомендовать"
 msgstr "Recommend"
 
-#: .\templates\articles\article-details.html:107
+#: .\templates\articles\article-details.html:113
 msgid "Эпизоды"
 msgstr "Episodes"
 
-#: .\templates\articles\article-details.html:121
+#: .\templates\articles\article-details.html:127
 msgid "Отзывы"
 msgstr "Reviews"
 
-#: .\templates\articles\article-details.html:129
+#: .\templates\articles\article-details.html:135
 msgid "Оставить отзыв"
 msgstr "Leave a review"
 
-#: .\templates\articles\article-details.html:143 .\templates\home.html:75
+#: .\templates\articles\article-details.html:149 .\templates\home.html:76
 msgid "Последние добавленные"
 msgstr "Recently added"
 
-#: .\templates\articles\article-list.html:36
+#: .\templates\articles\article-list.html:37
 msgid "Сортировать по"
 msgstr "Order by"
 
-#: .\templates\articles\article-list.html:38
+#: .\templates\articles\article-list.html:39
 msgid "A-Я"
 msgstr "A-Z"
 
@@ -129,35 +584,130 @@ msgstr "Year"
 msgid "Ответить"
 msgstr "Reply"
 
-#: .\templates\footer.html:19 .\templates\header.html:21
+#: .\templates\footer.html:19 .\templates\header.html:19
 msgid "Наш блог"
 msgstr "Our Blog"
 
-#: .\templates\footer.html:20 .\templates\header.html:22
+#: .\templates\footer.html:20 .\templates\header.html:20
 msgid "Контакты"
 msgstr "Contacts"
 
-#: .\templates\header.html:19
-msgid "Регистрация"
-msgstr "Sign up"
-
-#: .\templates\header.html:20
-msgid "Авторизация"
-msgstr "Login"
-
-#: .\templates\home.html:22
+#: .\templates\home.html:23
 msgid "В этом сезоне"
-msgstr ""
+msgstr "This season"
 
-#: .\templates\home.html:27 .\templates\home.html:63 .\templates\home.html:80
-#: .\templates\home.html:116
+#: .\templates\home.html:28 .\templates\home.html:64 .\templates\home.html:81
+#: .\templates\home.html:117
 msgid "Просмотреть все"
 msgstr "View All"
 
-#: .\templates\home.html:58
+#: .\templates\home.html:59
 msgid "Рекомендуют"
 msgstr "Recommend"
 
-#: .\templates\home.html:111
+#: .\templates\home.html:112
 msgid "Дорамы"
 msgstr "Dorams"
+
+#: .\templates\socialaccount\authentication_error.html:5
+#: .\templates\socialaccount\authentication_error.html:8
+msgid "Ошибка входа в социальную сеть"
+msgstr "Social Network Login Failure"
+
+#: .\templates\socialaccount\authentication_error.html:10
+msgid ""
+"Произошла ошибка при попытке войти через учетную запись социальной сети."
+msgstr ""
+"An error occurred while attempting to login via your social network account."
+
+#: .\templates\socialaccount\connections.html:5
+#: .\templates\socialaccount\connections.html:8
+msgid "Подключения аккаунта"
+msgstr "Account Connections"
+
+#: .\templates\socialaccount\connections.html:11
+msgid ""
+"Вы можете войти в свою учетную запись, используя любую из следующих "
+"сторонних учетных записей:"
+msgstr ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
+
+#: .\templates\socialaccount\connections.html:43
+msgid ""
+"В настоящее время у вас нет учетных записей социальных сетей, связанных с "
+"этой учетной записью."
+msgstr ""
+"You currently have no social network accounts connected to this account."
+
+#: .\templates\socialaccount\connections.html:46
+msgid "Добавить сторонний аккаунт"
+msgstr "Add a 3rd Party Account"
+
+#: .\templates\socialaccount\login.html:8
+#, python-format
+msgid "Подключить %(provider)s"
+msgstr "Connect %(provider)s"
+
+#: .\templates\socialaccount\login.html:10
+#, python-format
+msgid "Вы собираетесь подключить новый сторонний аккаунт из %(provider)s."
+msgstr "You are about to connect a new third party account from %(provider)s."
+
+#: .\templates\socialaccount\login.html:12
+#, python-format
+msgid "Авторизоваться через %(provider)s"
+msgstr "Sign In Via  %(provider)s"
+
+#: .\templates\socialaccount\login.html:14
+#, python-format
+msgid ""
+"Вы собираетесь войти, используя стороннюю учетную запись из %(provider)s."
+msgstr ""
+"You are about to sign in using a third party account from %(provider)s."
+
+#: .\templates\socialaccount\login.html:19
+msgid "Продолжить"
+msgstr "Continue"
+
+#: .\templates\socialaccount\login_cancelled.html:5
+#: .\templates\socialaccount\login_cancelled.html:9
+msgid "Вход отменен"
+msgstr "Login Cancelled"
+
+#: .\templates\socialaccount\login_cancelled.html:13
+#, python-format
+msgid ""
+"Вы решили отменить вход на наш сайт, используя одну из существующих учетных "
+"записей. Если это была ошибка, перейдите к <a href=\"%(login_url)s\"> "
+"авторизоваться</a>."
+msgstr ""
+"You decided to cancel logging in to our site using one of your existing "
+"accounts. If this was a mistake, please proceed to<a href=\"%(login_url)s"
+"\">sign in</a>."
+
+#: .\templates\socialaccount\messages\account_connected.txt:2
+msgid "Социальный аккаунт подключен."
+msgstr "The social account has been connected."
+
+#: .\templates\socialaccount\messages\account_connected_other.txt:2
+msgid "Социальная учетная запись уже подключена к другой учетной записи."
+msgstr "The social account is already connected to a different account."
+
+#: .\templates\socialaccount\messages\account_disconnected.txt:2
+msgid "Социальный аккаунт был отключен."
+msgstr "The social account has been disconnected."
+
+#: .\templates\socialaccount\signup.html:10
+#, python-format
+msgid ""
+"Вы собираетесь использовать свою учетную запись %(provider_name)s для входа "
+"в\n"
+"  %(site_name)s. В качестве последнего шага заполните следующую форму:"
+msgstr ""
+"You are about to use your %(provider_name)s account to login to"
+"%(site_name)s. As a final step, please complete the following form:"
+
+#: .\templates\socialaccount\snippets\provider_list.html:18
+msgid "ВОЙТИ В СИСТЕМУ С"
+msgstr "SIGN IN WITH"

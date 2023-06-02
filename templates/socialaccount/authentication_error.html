@@ -1,0 +1,11 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Ошибка входа в социальную сеть" %}{% endblock %}
+
+{% block content %}
+<h1>{% translate "Ошибка входа в социальную сеть" %}</h1>
+
+<p>{% translate "Произошла ошибка при попытке войти через учетную запись социальной сети." %}</p>
+{% endblock %}

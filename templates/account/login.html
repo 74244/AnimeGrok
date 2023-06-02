@@ -1,0 +1,83 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account static socialaccount %}
+
+{% block title %}{% trans "Авторизация" %}{% endblock %}
+
+{% block content %}
+<!-- Normal Breadcrumb Begin -->
+<section class="normal-breadcrumb set-bg" data-setbg="{% static 'img/normal-breadcrumb.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="normal__breadcrumb__text">
+                    <h2>{% trans "Авторизация" %}</h2>
+                    {# <p>Welcome to the official Anime blog.</p> #}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Normal Breadcrumb End -->
+
+<!-- Login Section Begin -->
+<section class="login spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="login__form">
+                    <h3>{% trans "Авторизация" %}</h3>
+                    <form class="login" method="POST" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+                        <div class="input__item">
+                            {{ form.login }}
+                            <span class="icon_mail"></span>
+                        </div> 
+                        <div class="input__item">
+                            {{ form.password }}
+                            <span class="icon_lock"></span>
+                        </div> 
+                        {% if redirect_field_value %}
+                        <input type="text" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+                        <button type="submit" class="site-btn primaryAction">{% trans "Авторизоваться" %}</button>
+                        <a href="{% url 'account_reset_password' %}" class="forget_pass">{% translate 'Забыли пароль' %}?</a>
+                    </form>
+                    
+                </div>
+            </div>
+
+            
+            <div class="col-lg-6">
+                <div class="login__register">
+                    <h3>{% translate 'Нет учетной записи' %}?</h3>
+                    <a href="{{ signup_url }}" class="primary-btn">{% translate 'Зарегистрироваться' %}</a>
+                </div>
+            </div>
+        </div>
+        <div class="login__social">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-6">
+                    <div class="login__social__links">
+                        <span>{% translate 'ИЛИ' %}</span>
+                        <ul>
+                            {% get_providers as socialaccount_providers %}
+
+                            <div class="socialaccount_ballot">
+                                <ul class="socialaccount_providers">
+                                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                                </ul>
+                            </div>
+                            
+                            {% include "socialaccount/snippets/login_extra.html" %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Login Section End -->
+
+{% endblock %}

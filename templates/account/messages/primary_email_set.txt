@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktranslate %}Установлен основной адрес электронной почты.{% endblocktranslate %}

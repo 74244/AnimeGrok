@@ -57,6 +57,12 @@ INSTALLED_APPS = [
     'src.profiles.apps.ProfilesConfig',
     'src.recomendations.apps.RecomendationsConfig',
     'src.subscriptions.apps.SubscriptionsConfig',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.vk',
+    'allauth.socialaccount.providers.google',
 ]   
 
 MIDDLEWARE = [
@@ -91,6 +97,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 
 # Database
@@ -138,11 +149,33 @@ USE_I18N = True
 
 USE_TZ = True
 
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
+
+ACCOUNT_LOGOUT_ON_GET= True
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 gettext = lambda s: s
 LANGUAGES = (
     ('ru', gettext('Russia')),
     ('en', gettext('English')),
-
 )
 
 LOCALE_PATHS = (
@@ -171,7 +204,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-SITE_ID = 1
+
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 
@@ -239,6 +272,9 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',

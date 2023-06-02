@@ -1,0 +1,15 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Вход отменен" %}{% endblock %}
+
+{% block content %}
+
+<h1>{% translate "Вход отменен" %}</h1>
+
+{% url 'account_login' as login_url %}
+
+<p>{% blocktranslate %}Вы решили отменить вход на наш сайт, используя одну из существующих учетных записей. Если это была ошибка, перейдите к <a href="{{login_url}}"> авторизоваться</a>.{% endblocktranslate %}</p>
+
+{% endblock %}

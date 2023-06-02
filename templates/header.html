@@ -18,34 +18,43 @@
                             <li><a href="./blog-details.html">Blog Details</a></li>
                             <li><a href="./blog.html">{% translate 'Наш блог' %}</a></li>
                             <li><a href="#">{% translate 'Контакты' %}</a></li>
-                            <li><a href="./signup.html">{% translate 'Регистрация' %}</a></li>
-                            <li><a href="./login.html">{% translate 'Авторизация' %}</a></li>
+                            <li><a href="{% url 'account_email' %}">Test</a></li> 
+                            {# <li><a href="./login.html">{% translate 'Авторизация' %}</a></li> #}
+                            <li>
+                                <div>
+                                    <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                                        <input name="next" type="hidden" value="{{ redirect_to }}">
+                                        <select name="language">
+                                            {% get_current_language as LANGUAGE_CODE %}
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                                {{ language.code }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <input type="submit" value="Go">
+                                    </form>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
+
                 </div>
             </div>
             <div class="col-lg-2">
                 <div class="header__right">
                     <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                    <a href="./login.html"><span class="icon_profile"></span></a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'account_logout' %}"><span class="icon_profile"></span></a>
+                    {% else %}
+                    <a href="{% url 'account_login' %}"><span class="icon_profile"></span></a>
+                    {% endif %}
+                    <p>{{user.username}}</p>
                 </div>
             </div>
-            <div>
-                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                    <input name="next" type="hidden" value="{{ redirect_to }}">
-                    <select name="language">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% get_available_languages as LANGUAGES %}
-                        {% get_language_info_list for LANGUAGES as languages %}
-                        {% for language in languages %}
-                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                                {{ language.name_local }} ({{ language.code }})
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Go">
-                </form>
-            </div>
+
         </div>
         <div id="mobile-menu-wrap"></div>
     </div>
