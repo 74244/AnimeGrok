@@ -134,7 +134,7 @@ class TopViewsFilterView(ListView):
     """Фильтр аниме в json"""
 
     def get_queryset(self):
-        print(self.request.GET.lists())
+        # print(self.request.GET.lists())
         # if date_value == 'year':
         #     value = 365
         # if date_value == 'month':
@@ -145,7 +145,6 @@ class TopViewsFilterView(ListView):
         # start_date = curent_date - timedelta(days=value)
         # queryset = Article.objects.annotate(top_views=models.Count('viewers')).order_by('-top_views')[:5].prefetch_related('viewers')
         queryset = Article.objects.all()[:5].values('title', 'poster', 'viewers',)
-        print(queryset)
         return queryset
 
     def get(self, request, *args, **kwargs):

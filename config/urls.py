@@ -38,6 +38,7 @@ urlpatterns = [
 
 
 urlpatterns += i18n_patterns(
+    path('accounts/', include('allauth.urls')),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('', include('src.routers'))
 )

@@ -18,7 +18,6 @@ class SubscriptionView(View):
     model = Subscription
 
     def post(self, request, **kwargs):
-        print('-----------', request)
         url = check_article_user(self, request, **kwargs)
         return HttpResponseRedirect(f'{url}')
     

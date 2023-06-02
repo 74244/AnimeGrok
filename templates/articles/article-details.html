@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %} {{article.title}} {% endblock title %}
 {% load static i18n article_tag %}
 
 {% block content %}
@@ -71,7 +72,7 @@
                                     <ul>
                                         {# <li><span>{% translate 'Голоса' %}:</span> 7.31 / 1,515</li> #}
                                         <li><span>{% translate 'Рейтинг' %}:</span> 8.5 / 161 times</li>
-                                        <li><span>{% translate 'Длительность' %}:</span> {{ article.duration }} min/ep</li>
+                                        <li><span>{% translate 'Длительность' %}:</span> {{ article.duration }} {% translate 'мин/эпизод' %}</li>
                                         <li><span>{% translate 'Качество' %}:</span> {{ article.quality }}</li>
                                         <li><span>{% translate 'Просмотры' %}:</span> {# {{article.viewers.count}} #}</li>
                                     </ul>
@@ -97,10 +98,12 @@
                                 </div>
                             </div>
                         </div>
-                        <p>{{ article.description|safe }}</p>
+                        
                     </div>
                 </div>
+                
             </div>
+            <p>{{ article.description|safe }}</p>
         </div>
         <div class="row">
             <div class="col-lg-12">

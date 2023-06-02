@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktranslate %}Ваш основной адрес электронной почты должен быть подтвержден..{% endblocktranslate %}

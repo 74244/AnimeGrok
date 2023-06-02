@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktranslate %}Электронное письмо с подтверждением отправлено на{{email}}.{% endblocktranslate %}

@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktranslate %}Вы вышли из аккаунта.{% endblocktranslate %}

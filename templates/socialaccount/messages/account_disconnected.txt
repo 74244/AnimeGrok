@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktranslate %}Социальный аккаунт был отключен.{% endblocktranslate %}

@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktranslate %}Социальная учетная запись уже подключена к другой учетной записи.{% endblocktranslate %}
