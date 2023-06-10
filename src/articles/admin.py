@@ -56,8 +56,8 @@ class ViewerAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(TranslationAdmin):
-    list_display = ('title', 'title_alt', 'date_aired',  'activity', 'series', 'season', 
-                    'get_reviews_count', 'get_viewers_count','user', 'on_main', 'get_poster_in_list',)
+    list_display = ('title', 'title_alt', 'date_aired',  'activity', 'series', 'season',
+                    'user', 'on_main', 'get_poster_in_list',)
     list_display_links = ('title',)
     prepopulated_fields = {'link': ('title_alt',)}
     search_fields = ('title',)
@@ -65,7 +65,7 @@ class ArticleAdmin(TranslationAdmin):
     save_on_top = True
     readonly_fields = ('get_poster_in_article',)
     form = ArticleAdminForm
-    ordering = ('id',)
+    # ordering = ('id',)
     fieldsets = (
         (None, {
             'fields':('on_main',),
@@ -99,6 +99,9 @@ class ArticleAdmin(TranslationAdmin):
         }),
         (None, {
             'fields':('link',)
+        }),
+        (None, {
+            'fields':('videos',)
         }),
     )
 
@@ -144,7 +147,7 @@ class VideoAdmin(TranslationAdmin):
     list_editable = ('episode', 'file')
     search_fields = ('article',)
     save_as = True
-    ordering = ('-episode',)
+    ordering = ('-create_at',)
     save_on_top = True
     fieldsets = (
         (None, {

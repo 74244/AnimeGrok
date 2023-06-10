@@ -5,6 +5,8 @@ from django.core.validators import FileExtensionValidator
 from django.conf import settings
 from mptt.models import MPTTModel, TreeForeignKey
 
+from config.settings import MEDIA_URL
+
 class Category(models.Model):
     """Категории"""
 
@@ -111,6 +113,7 @@ class Article(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     series = models.CharField("Общее количество серий", default='XX')
     on_main = models.BooleanField("Отображать на главной", default=False)
+    videos = models.ManyToManyField('Video', verbose_name='Эпизоды', blank=True, related_name='art_episodes')
     
 
     def __str__(self):
@@ -221,9 +224,9 @@ class Video(models.Model):
     def __str__(self):
         return f"{self.article}-{self.episode}-{self.title}"
     
-    def get_absolute_url(self):
-        return reverse("stream", kwargs={"slug":self.article.link, "episode": self.episode})
+    def get_absolute_file_url(self):
+     return self.file.url
     
     class Meta:
         verbose_name_plural = "Видео"
-        ordering = ('episode',)
+        ordering = ('-create_at',)

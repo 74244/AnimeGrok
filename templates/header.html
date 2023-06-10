@@ -18,7 +18,7 @@
                             <li><a href="./blog-details.html">Blog Details</a></li>
                             <li><a href="./blog.html">{% translate 'Наш блог' %}</a></li>
                             <li><a href="#">{% translate 'Контакты' %}</a></li>
-                            <li><a href="{% url 'account_email' %}">Test</a></li> 
+                            {# <li><a href="{% url 'account_email' %}">Test</a></li> #}
                             {# <li><a href="./login.html">{% translate 'Авторизация' %}</a></li> #}
                             <li>
                                 <div>
@@ -53,6 +53,7 @@
                     {% endif %}
                     <p>{{user.username}}</p>
                 </div>
+
             </div>
 
         </div>

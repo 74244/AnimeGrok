@@ -6,7 +6,28 @@
 <!-- Hero Section Begin -->
 <section class="hero">
     <div class="container">
-        {% get_home_slider_articles %}
+        <div class="hero__slider owl-carousel">
+            {% get_home_slider_articles as home_slider_articles %}
+            {% for item in home_slider_articles %}
+            <div class="hero__slider owl-carousel">
+
+                <div class="hero__items set-bg main-img" data-setbg="{{item.poster.url}}">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                {% for genre in item.genres.all %}
+                                <div class="label">{{ genre.name }}</div>
+                                {% endfor %}
+                                <h2>{{item.title}}</h2>
+                                <a href="{{item.get_absolute_url}}"><span>{% translate 'Смотреть' %}</span> <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </section>
 <!-- Hero Section End -->   
@@ -35,13 +56,12 @@
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="{{item.poster.url}}">
-                                    <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> {{item.reviews.count}}</div>
+                                    <div class="ep">{{item.article_episodes.first.episode}} / {{item.series}}</div>
                                     <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
                                 </div>
                                 <div class="product__item__text">
                                     <ul>
-                                        {% for genre in article.genres.all %}
+                                        {% for genre in item.genres_set %}
                                         <li>{{ genre.name }}</li>
                                         {% endfor %}
                                     </ul>
@@ -88,13 +108,12 @@
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="{{item.poster.url}}">
-                                    <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> {{item.reviews.count}}</div>
+                                    <div class="ep">{{item.article_episodes.first.episode}} / {{item.series}}</div>
                                     <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
                                 </div>
                                 <div class="product__item__text">
                                     <ul>
-                                        {% for genre in article.genres.all %}
+                                        {% for genre in item.genres.all %}
                                         <li>{{ genre.name }}</li>
                                         {% endfor %}
                                     </ul>
@@ -124,13 +143,12 @@
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="{{item.poster.url}}">
-                                    <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> {{item.reviews.count}}</div>
+                                    <div class="ep">{{item.videos.count}} / {{item.series}}</div>
                                     <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
                                 </div>
                                 <div class="product__item__text">
                                     <ul>
-                                        {% for genre in article.genres.all %}
+                                        {% for genre in item.genres.all %}
                                         <li>{{ genre.name }}</li>
                                         {% endfor %}
                                     </ul>

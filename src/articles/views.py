@@ -1,30 +1,37 @@
-from django.http import HttpResponse, StreamingHttpResponse, JsonResponse
+from typing import Any, Dict
+from django import http
+from django.db.models import Count
+from django.db.models.query import QuerySet
+from django.views.decorators.cache import cache_page
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, View, CreateView
 
+from rest_framework import serializers
+from rest_framework.renderers import JSONRenderer
+
+from src.api.serializers import ArticleListSerializer
 from src.base.mixins import CountViewerMixin
 from src.articles.forms import RatingForm, ReviewForm
-from src.articles.models import Article, Rating,  Genre, Review
-from src.articles.services import open_file
+from src.articles.models import Article, Rating,  Genre, Review, Video
+from src.articles.services import ArticleListService
 
-
-
-class HomeView(ListView):
-    model = Article
-    template_name = "home.html"
-    context_object_name = 'article'
-
-class Genre:
+class GenreAll:
     """ Жанры """
 
     def get_genres(self):
         return Genre.objects.all()
 
-class ArticleListView(Genre, ListView):
+class HomeView(ListView):
+    model = Article
+    template_name = "home.html"
+
+    
+class ArticleListView(GenreAll, ListView):
     """Список аниме"""
     
     model = Article
-    queryset = Article.objects.all().prefetch_related('viewers', 'genres').select_related('category', 'user',)#.only('title', 'link', 'poster', 'series', 'genres', 'viewers', 'category')
+    # queryset = Article.objects.all().prefetch_related('viewers', 'genres', 'videos').select_related('category').only('title', 'link', 'poster', 'series', 'genres__name', 'viewers', 'category', 'videos')
     template_name = "articles/article-list.html"
     paginate_by = 12
 
@@ -99,21 +106,6 @@ class ReviewCreateView(CreateView):
         return redirect(review.article.get_absolute_url())
                 
 
-
-#TODO: Сделать норм плеер
-
-def get_streaming_video(request, slug, episode):
-    pk = Article.objects.filter(link=slug).values('pk')[0]['pk']
-    file, status_code, content_lenght, content_range = open_file(request, pk, episode) 
-    response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
-
-    response['Accept-Ranges'] = 'bytes'
-    response['Content-Length'] = str(content_lenght)
-    response['Cache-Control'] = 'no-cache'
-    response['Content-Range'] = content_range
-
-    return response
-
 class Search(ListView):
     """Поиск Аниме"""
 
@@ -143,11 +135,10 @@ class TopViewsFilterView(ListView):
         #     value = 7
         # curent_date = datetime.today()
         # start_date = curent_date - timedelta(days=value)
-        # queryset = Article.objects.annotate(top_views=models.Count('viewers')).order_by('-top_views')[:5].prefetch_related('viewers')
+        # queryset = Article.objects
         queryset = Article.objects.all()[:5].values('title', 'poster', 'viewers',)
         return queryset
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         return JsonResponse({'top_v_articles':list(queryset)})
-

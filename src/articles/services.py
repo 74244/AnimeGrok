@@ -1,59 +1,63 @@
+from collections import OrderedDict
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import IO, Generator
+from django.core.exceptions import FieldError, ObjectDoesNotExist
+from django.db.models import Count
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
-from .models import Video, Article, Viewer
+from modeltranslation.manager import MultilingualQuerySet
+from src.articles.models import Video, Article, Viewer
 from src.profiles.models import UserNet
-from django.core.exceptions import FieldError, ObjectDoesNotExist
+from src.recomendations.models import RecArticle
 
-def ranged(
-        file: IO[bytes],
-        start: int = 0,
-        end: int = None,
-        block_size: int = 8192,
-) -> Generator[bytes, None, None]:
-    consumed = 0
 
-    file.seek(start)
-    while True:
-        data_length = min(block_size, end - start - consumed) if end else block_size
-        if data_length <= 0:
-            break
-        data = file.read(data_length)
-        if not data:
-            break
-        consumed += data_length
-        yield data
+class ArticleService:
+    def get_data(self, qset: MultilingualQuerySet, quantity: None):
+        pass
+    def get_season(self, month: datetime.month):
+        pass
 
-    if hasattr(file, 'close'):
-        file.close()
+class ArticleListService(ArticleService):
+    def __init__(self, qset: MultilingualQuerySet):
+        self.queryset = qset
+        # self.quantity = qnt
 
-def open_file(request, pk, episode: int) -> tuple:
-    _video = get_object_or_404(Video.objects.filter(article_id=pk).filter(episode=episode))
+    def get_hsa(self, quantity) -> MultilingualQuerySet:
+        """Список аниме на главную для слайдера"""
 
-    path = Path(_video.file.path)
-
-    file = path.open('rb')
-    file_size = path.stat().st_size
-
-    content_length = file_size
-    status_code = 200
-    content_range = request.headers.get('range')
-
-    if content_range is not None:
-        content_ranges = content_range.strip().lower().split('=')[-1]
-        range_start, range_end, *_ = map(str.strip, (content_ranges + '-').split('-'))
-        range_start = max(0, int(range_start)) if range_start else 0
-        range_end = min(file_size - 1, int(range_end)) if range_end else file_size - 1
-        content_length = (range_end - range_start) + 1
-        file = ranged(file, start=range_start, end=range_end + 1)
-        status_code = 206
-        content_range = f"bytes {range_start}-{range_end}/{file_size}"
+        hsa = self.queryset.filter(on_main=True).only('title', 'link', 'genres','poster').prefetch_related('genres')[:quantity]
+        return hsa
     
-    return file, status_code, content_length, content_range
+    def get_sa(self, quantity) -> MultilingualQuerySet:
+        """ Вывод аниме по сезону """
 
+        sa = self.queryset.prefetch_related('viewers', 'genres', 'videos').filter(season__contains='2023-Весна').only('title', 'link', 'genres__name', 'viewers', 'season', 'series', 'poster')[:quantity]
+        return sa
+    
+    def get_la(self, quantity) -> MultilingualQuerySet:
+        """Вывод последних добавленных аниме"""
+
+        data = Video.objects.values_list('article_id', flat=True).order_by('-create_at')
+        res = list(OrderedDict.fromkeys(data))
+        last_arts = self.queryset.prefetch_related('viewers', 'genres', 'videos').filter(pk__in=res).only('title', 'link', 'genres', 'viewers', 'season', 'series', 'poster')[:quantity]
+        return last_arts
+    
+    def get_tva(self, quantity) -> MultilingualQuerySet:
+        """Вывод аниме с наибольшими просмотрами """
+
+        tva = self.queryset.annotate(top_views=Count('viewers')).order_by('-top_views')[:quantity].prefetch_related('viewers', 'videos').only('title', 'link', 'viewers', 'series', 'poster')
+        return tva
+    
+    def get_rec_arts(self, quantity) -> MultilingualQuerySet:
+        recs = RecArticle.objects.annotate(top=Count('users')).order_by('-top').values_list('article_id', flat=True)[:quantity]
+        rec_articles = self.queryset.prefetch_related('genres', 'viewers', 'videos').filter(pk__in=recs).only('title', 'link', 'genres', 'viewers', 'season', 'series', 'poster')
+        return rec_articles
+    
+    def get_dorams(self, quantity) -> MultilingualQuerySet:
+        dorams = self.queryset.prefetch_related('viewers', 'genres', 'videos').filter(category__link='dorama').only('title', 'link', 'viewers', 'series', 'poster')[:quantity]
+        return dorams
 
 def check_date():
     # print(Viewer.objects.all().values('viewed_on'))

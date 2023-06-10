@@ -2,19 +2,33 @@ from collections import OrderedDict
 from datetime import datetime, timedelta
 
 from django import template
-from django.db.models import Count
+from django.core.cache import cache
+from django.db.models import Count, Max
 
+from django.conf.global_settings import LANGUAGE_CODE
+from django.utils.translation import get_language
 from src.recomendations.models import RecArticle
 from src.articles.models import Review, Article, Video
+
+from pprint import PrettyPrinter
+
+pp = PrettyPrinter(indent=4)
 register = template.Library()
 
 
-
-
-@register.inclusion_tag('articles/home_slider_articles.html')
+# @register.inclusion_tag('articles/home_slider_articles.html')
+@register.simple_tag()
 def get_home_slider_articles():
-    home_slider_articles = Article.objects.filter(on_main=True)
-    return {'home_slider_articles': home_slider_articles}
+    """Список аниме на главную для слайдера"""
+
+    home_slider_cache_name = 'home_slider_cache'
+    home_slider_cache = cache.get(home_slider_cache_name)
+    if home_slider_cache:
+        result = home_slider_cache
+    else:
+        result = Article.objects.filter(on_main=True).only('title', 'link', 'genres','poster').prefetch_related('genres')
+        cache.set(home_slider_cache_name, result, 60  * 60)
+    return result
 
 
 #TODO: Исправить фильтрацию данных на по квартальную или т.п.
@@ -22,42 +36,83 @@ def get_home_slider_articles():
 def get_season_articles(quantity):
     """ Вывод аниме по сезону """
 
-    return Article.objects.filter(season__contains='2023-Весна')[:quantity]
+    season_articles_cache_name = 'season_articles_cache'
+    season_articles_cache = cache.get(season_articles_cache_name)
+    if season_articles_cache:
+        result = season_articles_cache
+    else:
+        result = Article.objects.prefetch_related('viewers', 'genres', 'videos').filter(season__contains='2023-Весна').only('title', 'link', 'genres__name', 'viewers', 'season', 'series', 'poster')[:quantity]
+        cache.set(season_articles_cache_name, result, 60  * 60)
+
+    return result
 
 @register.simple_tag()
 def get_last_articles(quantity):
     """Вывод последних добавленных аниме"""
-    
-    data = Video.objects.order_by('-episode').values_list('article_id', flat=True)
-    res = list(OrderedDict.fromkeys(data))
-    last_articles = Article.objects.filter(pk__in=res)[:quantity]
-    return last_articles
+
+    last_articles_cache_name = 'last_articles_cache'
+    last_articles_cache = cache.get(last_articles_cache_name)
+    if last_articles_cache:
+        result = last_articles_cache
+    else:
+        data = Video.objects.values_list('article_id', flat=True).order_by('-create_at')
+        res = list(OrderedDict.fromkeys(data))
+        result = Article.objects.prefetch_related('viewers', 'genres', 'videos').filter(pk__in=res).only('title', 'link', 'genres__name', 'viewers', 'season', 'series', 'poster')[:quantity]
+        cache.set(last_articles_cache_name, result, 60  * 60)
+
+    return result
 
 
 @register.inclusion_tag('articles/list_top_views.html')
 def get_top_views_articles(quantity):
     """Вывод аниме с наибольшими просмотрами """
-    top_v_articles = Article.objects.annotate(top_views=Count('viewers')).order_by('-top_views')[:quantity].prefetch_related('viewers')
 
-    return {'top_v_articles': top_v_articles}
+    top_v_articles_cache_name = 'top_v_articles_cache'
+    top_v_articles_cache = cache.get(top_v_articles_cache_name)
+    if top_v_articles_cache:
+        result = top_v_articles_cache
+    else:
+        result = Article.objects.annotate(top_views=Count('viewers')).order_by('-top_views')[:quantity].prefetch_related('viewers', 'videos').only('title', 'link', 'viewers', 'series', 'poster')
+        cache.set(top_v_articles_cache_name, result, 60  * 60)
+
+    
+    return {'top_v_articles': result}
 
 
 @register.inclusion_tag('articles/recommended_articles.html')
 def get_recommended_articles(quantity):
     """Вывод аниме из топа рекомендаций"""
 
-    recs = RecArticle.objects.annotate(top=Count('users')).order_by('-top').values_list('article_id', flat=True)[:quantity]
-    r_articles = Article.objects.filter(pk__in=recs)
-    return {'r_articles': r_articles}
+
+    recommended_articles_cache_name = 'recommended_articles_cache'
+    recommended_articles_cache = cache.get(recommended_articles_cache_name)
+    if recommended_articles_cache:
+        result = recommended_articles_cache
+    else:
+        recs = RecArticle.objects.annotate(top=Count('users')).order_by('-top').values_list('article_id', flat=True)[:quantity]
+        result = Article.objects.prefetch_related('genres', 'viewers', 'videos').filter(pk__in=recs).only('title', 'link', 'genres__name', 'viewers', 'season', 'series', 'poster')
+        cache.set(recommended_articles_cache_name, result, 60  * 60)
+
+    return {'r_articles': result}
 
 @register.simple_tag()
 def get_dorams(quantity):
-    return Article.objects.filter(category__link='dorama')[:quantity]
+    
+    dorams_cache_name = 'dorams_cache'
+    dorams_cache = cache.get(dorams_cache_name)
+    if dorams_cache:
+        result = dorams_cache
+    else:
+        result = Article.objects.prefetch_related('viewers', 'genres', 'videos').filter(category__link='dorama').only('title', 'link', 'viewers', 'series', 'poster')[:quantity]
+        cache.set(dorams_cache_name, result, 60  * 60)
 
+    return result
 
 @register.inclusion_tag('articles/list_new_reviews.html')
 def get_last_reviews():
     """Вывод последних комментариев на странице со списком аниме"""
 
-    last_reviews = Review.objects.all()[:4]
+    last_reviews = Review.objects.select_related('article').order_by('-create_at').only('article', 'article__id', 'article__genres__name', 'article__poster', 'article__link', 'article__viewers').prefetch_related('article__genres', 'article__viewers')[:4]
     return {'last_reviews': last_reviews}
+
+    

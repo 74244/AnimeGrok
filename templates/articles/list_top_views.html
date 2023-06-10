@@ -17,7 +17,7 @@
         {% for item in top_v_articles %}
         <div class="product__sidebar__view__item set-bg mix"
             data-setbg="{{item.poster.url}}">
-            <div class="ep">{{item.article_episodes.last.episode}} / {{item.series}}</div>
+            <div class="ep">{{item.videos.count}} / {{item.series}}</div>
             <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
             <h5><a href="{{item.get_absolute_url}}">{{item.title}}</a></h5>
         </div>

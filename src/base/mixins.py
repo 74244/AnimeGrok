@@ -12,7 +12,7 @@ class CountViewerMixin:
         return ip
     
 
-    #TODO: Переписать нормально функцию для анонимного пользователя
+    #TODO: Переписать функцию для анонимного пользователя
     def get_mixin_ip(self, request, *args, **kwargs):
 
         if hasattr(self.object, 'viewers') and request.user.is_authenticated:

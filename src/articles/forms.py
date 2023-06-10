@@ -17,8 +17,7 @@ class RatingForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     """Форма добавления отзыва"""
     parent = forms.IntegerField(widget=forms.HiddenInput, required=False)
-    # author = forms.CharField(widget=forms.Textarea(attrs={'class': 'hidden',}), required=False),
-    # text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Your review'}), required=False),
+
     class Meta:
         model = Review
         fields = ('text', )

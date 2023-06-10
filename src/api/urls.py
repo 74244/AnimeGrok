@@ -26,19 +26,6 @@ router.register(r'videos', VideoViewSet, basename='video')
 
 urlpatterns = router.urls
 
-# article_set = ArticleViewSet.as_view({
-#     'get': 'retrieve',
-#     'put': 'update',
-#     'patch': 'partial_update',
-#     'delete': 'destroy'
-# })
-
-# profile_detail = UserNetViewSet.as_view({
-#     'get': 'retrieve',
-#     # 'put': 'update',
-#     # 'patch': 'partial_update',
-#     # 'delete': 'destroy'
-# })
 urlpatterns = [
     path('', include(a_router.urls))
 ]

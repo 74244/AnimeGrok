@@ -1,18 +1,1 @@
 {% load static i18n %}
-<div class="hero__slider owl-carousel">
-    {% for item in home_slider_articles %}
-    <div class="hero__items set-bg main-img" data-setbg="{{item.poster.url}}">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="hero__text">
-                    {% for genre in item.genres.all %}
-                    <div class="label">{{ genre.name }}</div>
-                    {% endfor %}
-                    <h2>{{item.title}}</h2>
-                    <a href="{{item.get_absolute_url}}"><span>{% translate 'Смотреть' %}</span> <i class="fa fa-angle-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
