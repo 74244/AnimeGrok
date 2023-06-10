@@ -27,5 +27,24 @@
 <li>Javascript </li>
 </ul>
 
+
+### Скриншоты
+![Главная страница"](/z_screens/HomePage.png)
+![Все тайтлы](/z_screens/ArticleList.png)
+![Страница на русском языке](/z_screens/ArticleDetailRu.png)
+![Страница на английском языке](/z_screens/ArticleDetailEn.png)
+![Видеоплеер](/z_screens/Videoplayer.png)
+
+
+
+### Источники файлов:
+
 ### Шаблон:
 https://themewagon.com/themes/free-bootstrap-4-html5-gaming-anime-website-template-anime/
+
+### Картинки:
+https://anidub.live/
+https://anilibria.tv/
+
+### Видео
+https://coverr.co/
