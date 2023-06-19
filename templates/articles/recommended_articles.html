@@ -2,12 +2,12 @@
 
 {% for article in r_articles %}
     <div class="col-lg-4 col-md-6 col-sm-6">
-        <div class="product__item">
-            <div class="product__item__pic set-bg" data-setbg="{{article.poster.url}}">
-                <div class="ep">{{article.videos.count}} / {{article.series}}</div>
+        <div class="article__item">
+            <div class="article__item__pic set-bg" data-setbg="{{article.poster.url}}">
+                <div class="ep">{{article.article_episodes.count}} / {{article.series}}</div>
                 <div class="view"><i class="fa fa-eye"></i> {{article.viewers.count}}</div>
             </div>
-            <div class="product__item__text">
+            <div class="article__item__text">
                 <ul>
                     {% for genre in article.genres.all %}
                     <li>{{ genre.name }}</li>

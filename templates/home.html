@@ -32,12 +32,12 @@
 </section>
 <!-- Hero Section End -->   
 
-<!-- Product Section Begin -->
-<section class="product spad">
+<!-- article Section Begin -->
+<section class="article spad">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="trending__product">
+                <div class="trending__article">
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="section-title">
@@ -46,20 +46,20 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="{% url 'article-list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
+                                <a href="{% url 'article_list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row in-this-season-container">
                         {% get_season_articles quantity=6 as season_articles %}
                         {% for item in season_articles %}
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{item.poster.url}}">
-                                    <div class="ep">{{item.article_episodes.first.episode}} / {{item.series}}</div>
+                            <div class="article__item">
+                                <div class="article__item__pic set-bg" data-setbg="{{item.poster.url}}">
+                                    <div class="ep">{{item.article_episodes.count}} / {{item.series}}</div>
                                     <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
                                 </div>
-                                <div class="product__item__text">
+                                <div class="article__item__text">
                                     <ul>
                                         {% for genre in item.genres_set %}
                                         <li>{{ genre.name }}</li>
@@ -72,7 +72,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="popular__product">
+                <div class="popular__article">
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="section-title">
@@ -81,7 +81,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="{% url 'article-list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
+                                <a href="{% url 'article_list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                         {% get_recommended_articles quantity=6 %}
                     </div>
                 </div>
-                <div class="recent__product">
+                <div class="recent__article">
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="section-title">
@@ -98,7 +98,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="{% url 'article-list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
+                                <a href="{% url 'article_list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
@@ -106,12 +106,12 @@
                         {% get_last_articles quantity=6 as last_articles %}
                         {% for item in last_articles %}
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{item.poster.url}}">
-                                    <div class="ep">{{item.article_episodes.first.episode}} / {{item.series}}</div>
+                            <div class="article__item">
+                                <div class="article__item__pic set-bg" data-setbg="{{item.poster.url}}">
+                                    <div class="ep">{{item.article_episodes.count}} / {{item.series}}</div>
                                     <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
                                 </div>
-                                <div class="product__item__text">
+                                <div class="article__item__text">
                                     <ul>
                                         {% for genre in item.genres.all %}
                                         <li>{{ genre.name }}</li>
@@ -124,7 +124,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="live__product">
+                <div class="live__article">
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="section-title">
@@ -133,7 +133,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="{% url 'article-list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
+                                <a href="{% url 'article_list' %}" class="primary-btn">{% translate 'Просмотреть все' %}<span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
@@ -141,12 +141,12 @@
                         {% get_dorams quantity=6 as dorams %}
                         {% for item in dorams %}
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{item.poster.url}}">
-                                    <div class="ep">{{item.videos.count}} / {{item.series}}</div>
+                            <div class="article__item">
+                                <div class="article__item__pic set-bg" data-setbg="{{item.poster.url}}">
+                                    <div class="ep">{{item.article_episodes.count}} / {{item.series}}</div>
                                     <div class="view"><i class="fa fa-eye"></i> {{item.viewers.count}}</div>
                                 </div>
-                                <div class="product__item__text">
+                                <div class="article__item__text">
                                     <ul>
                                         {% for genre in item.genres.all %}
                                         <li>{{ genre.name }}</li>
@@ -161,7 +161,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
-                <div class="product__sidebar">
+                <div class="article__sidebar">
                     {% get_top_views_articles quantity=5 %}
                     {% get_last_reviews %}
                 </div>
@@ -169,5 +169,5 @@
         </div>
     </div>
 </section>
-<!-- Product Section End -->
+<!-- article Section End -->
 {% endblock content %}

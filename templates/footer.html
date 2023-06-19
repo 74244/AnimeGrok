@@ -8,16 +8,14 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="footer__logo">
-                    <a href="{% url 'home_page' %}"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                    <a href="{% url 'home_page' %}"><img src="{% static 'img/AnimeGrokLogo.png' %}" alt=""></a>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="footer__nav">
                     <ul>
                         <li class="active"><a href="{% url 'home_page' %}"><i class="fa fa-home"></i>{% translate 'Главная' %}</a></li>
-                        <li><a href="{% url 'article-list' %}">{% translate 'Аниме' %}</a></li>
-                        <li><a href="./blog.html">{% translate 'Наш блог' %}</a></li>
-                        <li><a href="#">{% translate 'Контакты' %}</a></li>
+                        <li><a href="{% url 'article_list' %}">{% translate 'Аниме' %}</a></li>
                     </ul>
                 </div>
             </div>

@@ -10,7 +10,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="{% url 'home_page' %}"><i class="fa fa-home"></i>{% translate 'Главная' %}</a>
-                    <a href="{% url 'article-list' %}">{% translate 'Аниме' %}</a>
+                    <a href="{% url 'article_list' %}">{% translate 'Аниме' %}</a>
                     {# <span>Romance</span> #}
                 </div>
             </div>
@@ -19,13 +19,13 @@
 </div>
 <!-- Breadcrumb End -->
 
-<!-- Product Section Begin -->
-<section class="product-page spad">
+<!-- article Section Begin -->
+<section class="article-page spad">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="product__page__content">
-                    <div class="product__page__title">
+                <div class="article__page__content">
+                    <div class="article__page__title">
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-6">
                                 <div class="section-title">
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6">
-                                <div class="product__page__filter">
+                                <div class="article__page__filter">
                                     <p>{% translate 'Сортировать по' %}:</p>
                                     <select>
                                         <option value="">{% translate 'A-Я' %}</option>
@@ -44,15 +44,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row articles-list-container">
                         {% for article in article_list %}
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{ article.poster.url }}">
-                                    <div class="ep">{{article.videos.count}} / {{article.series}}</div>
+                            <div class="article__item">
+                                <div class="article__item__pic set-bg" data-setbg="{{ article.poster.url }}">
+                                    <div class="ep">{{article.article_episodes.count}} / {{article.series}}</div>
                                     <div class="view"><i class="fa fa-eye"></i> {{article.viewers.count}}</div>
                                 </div>
-                                <div class="product__item__text">
+                                <div class="article__item__text">
                                     <ul>
                                         {% for genre in article.genres.all %}
                                         <li>{{ genre.name }}</li>
@@ -65,12 +65,12 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="product__pagination">
+                <div class="article__pagination">
                     {% include 'include/pagination.html' %}
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
-                <div class="product__sidebar">
+                <div class="article__sidebar">
                     {% get_top_views_articles quantity=5 %}
                     {% get_last_reviews %}
                 </div>
@@ -78,5 +78,5 @@
         </div>
     </div>
 </section>
-<!-- Product Section End -->
+<!-- article Section End -->
 {% endblock content %}

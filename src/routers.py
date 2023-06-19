@@ -41,12 +41,19 @@ class CustomArticleRouter(SimpleRouter):
             detail=True,
             initkwargs={'suffix': 'Detail', }
         ),
-        # DynamicRoute(
-        #     url=r'^articles/{lookup}/episode-{url_path}$',
-        #     name='{basename}-{url_name}',
-        #     detail=True,
-        #     initkwargs={}
-        # )
+    ]
+class CustomTopViewsArticleRouter(SimpleRouter):
+    """
+    A router for read-only APIs, which doesn't use trailing slashes.
+    """
+    routes = [
+        Route(
+            url='articles/top-views/',
+            mapping={'get': 'list'},
+            name='{basename}-list',
+            detail=False,
+            initkwargs={'suffix': 'List'}
+        ),
     ]
 
 

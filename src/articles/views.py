@@ -1,20 +1,13 @@
-from typing import Any, Dict
-from django import http
-from django.db.models import Count
+from typing import Any
 from django.db.models.query import QuerySet
-from django.views.decorators.cache import cache_page
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, View, CreateView
 
-from rest_framework import serializers
-from rest_framework.renderers import JSONRenderer
 
-from src.api.serializers import ArticleListSerializer
 from src.base.mixins import CountViewerMixin
 from src.articles.forms import RatingForm, ReviewForm
-from src.articles.models import Article, Rating,  Genre, Review, Video
-from src.articles.services import ArticleListService
+from src.articles.models import Article, Rating,  Genre, Review
 
 class GenreAll:
     """ Жанры """
@@ -30,21 +23,23 @@ class HomeView(ListView):
 class ArticleListView(GenreAll, ListView):
     """Список аниме"""
     
-    model = Article
-    # queryset = Article.objects.all().prefetch_related('viewers', 'genres', 'videos').select_related('category').only('title', 'link', 'poster', 'series', 'genres__name', 'viewers', 'category', 'videos')
     template_name = "articles/article-list.html"
     paginate_by = 12
-
+    
+    def get_queryset(self) -> QuerySet[Any]:
+        return Article.objects.all().prefetch_related('viewers', 'genres', 'article_episodes').only('title', 'link', 'genres', 'viewers', 'season', 'series', 'poster')
+    
 
 class ArticleDetailView(DetailView, CountViewerMixin, Genre):
     """Полное описание аниме"""
 
-    model = Article
+    # model = Article
     template_name = "articles/article-details.html"
     slug_field = 'link'
     context_object_name = 'article'
+    queryset = Article.objects.all().select_related('user', 'category').prefetch_related('viewers', 'genres', 'article_episodes', 'reviews', 'ratings', 'voicing', 'timing', 'subtitles')
 
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['star_form'] = RatingForm()
@@ -121,24 +116,15 @@ class Search(ListView):
         return context
 
 
-#TODO: JS DOM
+# #TODO: JS DOM
 class TopViewsFilterView(ListView):
-    """Фильтр аниме в json"""
+    pass
+#     """Фильтр аниме в json"""
 
-    def get_queryset(self):
-        # print(self.request.GET.lists())
-        # if date_value == 'year':
-        #     value = 365
-        # if date_value == 'month':
-        #     value = 365
-        # if date_value == 'week':
-        #     value = 7
-        # curent_date = datetime.today()
-        # start_date = curent_date - timedelta(days=value)
-        # queryset = Article.objects
-        queryset = Article.objects.all()[:5].values('title', 'poster', 'viewers',)
-        return queryset
+#     def get_queryset(self):
+#         queryset = Article.objects.all()[:5].values('title', 'poster', 'viewers',)
+#         return queryset
 
-    def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        return JsonResponse({'top_v_articles':list(queryset)})
+#     def get(self, request, *args, **kwargs):
+#         queryset = self.get_queryset()
+#         return JsonResponse({'top_v_articles':list(queryset)})

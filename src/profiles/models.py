@@ -45,6 +45,8 @@ class UserNet(AbstractUser):
     def is_translator(self):
         return self.status == self.TRANSLATOR
     
+    def get_avatar(self):
+        return self.avatar.url
     
     def __str__(self):
         return self.username

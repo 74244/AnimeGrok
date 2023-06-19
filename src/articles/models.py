@@ -1,11 +1,19 @@
 
-from django.db import models
+from django.db import models, connection
 from django.urls import reverse
 from django.core.validators import FileExtensionValidator
 from django.conf import settings
 from mptt.models import MPTTModel, TreeForeignKey
 
 from config.settings import MEDIA_URL
+
+class CustomManager(models.Manager):
+    def raw_to_queryset(self, raw_query, params=()):
+        """Convert raw_query to a queryset"""
+        with connection.cursor() as cursor:
+            cursor.execute(raw_query, params)
+            return self.filter(id__in=(x[0] for x in cursor))
+
 
 class Category(models.Model):
     """Категории"""
@@ -57,6 +65,9 @@ class Viewer(models.Model):
     ip = models.GenericIPAddressField("IP address", blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     viewed_on = models.DateTimeField("Дата просмотра",auto_now_add=True)
+
+    def __str__(self):
+        return self.user
 
     class Meta:
         verbose_name = "Посетитель"
@@ -114,16 +125,16 @@ class Article(models.Model):
     series = models.CharField("Общее количество серий", default='XX')
     on_main = models.BooleanField("Отображать на главной", default=False)
     videos = models.ManyToManyField('Video', verbose_name='Эпизоды', blank=True, related_name='art_episodes')
+    objects = CustomManager()
     
-
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("article-detail", kwargs={"slug": self.link}) #, {"pk":self.id}
-
-    def get_video_episodes(self):
-        return Video.objects.filter(link=self.link)
+        return reverse("article_detail", kwargs={"slug": self.link}) #, {"pk":self.id}
+    
+    def get_absolute_file_url(self):
+        return self.poster.url
     
     def get_review(self):
         data = self.review_set.filter(parent__isnull=True)
@@ -133,13 +144,13 @@ class Article(models.Model):
         verbose_name = 'Аниме'
         verbose_name_plural = 'Аниме'
     
+
 class ArticleShot(models.Model):
     """Кадры из аниме"""
     article = models.ForeignKey(Article, verbose_name='Аниме', on_delete=models.CASCADE)
     title = models.CharField("Заголовок", max_length=150)
     description = models.TextField("Описание")
     image = models.ImageField("Изображение", upload_to='article_shots/')
-
 
     def __str__(self):
         return self.title
@@ -196,11 +207,10 @@ class Review(MPTTModel):
     def __str__(self):
         return f'{self.author}:{self.text}'
 
-    # @property
-    # def get_avatar(self):
-    #     if self.author:
-    #         return self.author.profile.get_avatar
-    #     return f'https://ui-avatars.com/api/?size=190&background=random&name={self.name}'
+    def get_avatar(self):
+        if self.author:
+            return self.author.avatar.url
+        return f'https://ui-avatars.com/api/?size=190&background=random&name=anonim'
     
     class Meta:
         verbose_name = "Отзыв"

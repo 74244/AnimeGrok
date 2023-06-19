@@ -3,14 +3,16 @@
     <div class="section-title">
         <h5>{% translate 'ТОП просмотры' %}:</h5>
     </div>
-        <div class="filter-data">
+    <div>
+        <form action="{% url 'top_views_filter' %}" method="get" name="filter">
             <ul class="filter__controls">
-                <li class='change-filter-data dayBtn' data-change='day'>{% translate 'День' %}</li>
-                <li class='change-filter-data weekBtn' data-change='week'>{% translate 'Неделя' %}</li>
-                <li class='change-filter-data monthBtn' data-change='month'>{% translate 'Месяц' %}</li>
-                <li class='change-filter-data yearBtn' data-change='year'>{% translate 'Год' %}</li>
+                <li class="active"><button type="submit">{% translate 'День' %}</button></li>
+                <li><button type="submit">{% translate 'Неделя' %}</button></li>
+                <li><button type="submit">{% translate 'Месяц' %}</button></li>
+                <li><button type="submit">{% translate 'Год' %}</button></li>
             </ul>
-        </div>
+        </form>
+    </div>
     <div class="top-viewers-container" id="topViewersContainer">
         {% for item in top_v_articles %}
         <div class="article__sidebar__view__item set-bg mix"

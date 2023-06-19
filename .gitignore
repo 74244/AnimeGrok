@@ -173,3 +173,14 @@ static/*
 !*static
 src/articles/gens/*
 
+src/gens/__init__.py
+src/gens/anidub_ongoing_page_1.json
+src/gens/articles_gen_en.py
+src/gens/data.py
+src/gens/genres_gen.py
+src/gens/proxy_ist_edit.py
+src/gens/test.py
+src/gens/texts.py
+src/gens/users_gens.py
+raw-sql/-- Количество рекомендаций на article.sql
+.vscode/launch.json

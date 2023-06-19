@@ -30,8 +30,6 @@ class CategoryAdmin(TranslationAdmin):
 @admin.register(Actor)
 class ActorAdmin(TranslationAdmin):
     list_display = ('user', 'description', 'age', 'image')
-    # search_fields = ('user',)             #FIXME:Исправить поиск
-    # search_help_text = 'Поиск по никнейму'
     save_as = True
     save_on_top = True
 
@@ -105,7 +103,7 @@ class ArticleAdmin(TranslationAdmin):
         }),
     )
 
-    def get_viewers_count(self, obj):
+    def get_views(self, obj):
         pass
         # return obj.viewers.count()
 
@@ -120,7 +118,7 @@ class ArticleAdmin(TranslationAdmin):
         return mark_safe(f'<img src={obj.poster.url} width="120" height="150"')
 
     get_reviews_count.short_description = "Отзывы"
-    get_viewers_count.short_description = "Просмотры"
+    get_views.short_description = "Просмотры"
     get_poster_in_list.short_description = "Изображение"
     get_poster_in_article.short_description = "Изображение"
 

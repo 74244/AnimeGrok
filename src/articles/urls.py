@@ -10,8 +10,8 @@ urlpatterns = [
 
     path('tv-filter/', views.TopViewsFilterView.as_view(), name='top_views_filter'),
     
-    path('articles/', cache_page(60*10)(views.ArticleListView.as_view()), name='article-list'),
-    path('articles/<slug:slug>/', views.ArticleDetailView.as_view(), name='article-detail'),
+    path('articles/', (views.ArticleListView.as_view()), name='article_list'),
+    path('articles/<slug:slug>/',(views.ArticleDetailView.as_view()), name='article_detail'),
     path('articles/<int:pk>/reviews/create/', views.ReviewCreateView.as_view(), name='create-review'),
 ]
 

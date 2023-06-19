@@ -1,17 +1,15 @@
 from collections import OrderedDict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import IO, Generator
-from django.core.exceptions import FieldError, ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
 
 from modeltranslation.manager import MultilingualQuerySet
-from src.articles.models import Video, Article, Viewer
-from src.profiles.models import UserNet
+from src.articles.models import Video, Article
 from src.recomendations.models import RecArticle
 
+from pprint import PrettyPrinter
+pp = PrettyPrinter(indent=4)
 
 class ArticleService:
     def get_data(self, qset: MultilingualQuerySet, quantity: None):
@@ -22,7 +20,6 @@ class ArticleService:
 class ArticleListService(ArticleService):
     def __init__(self, qset: MultilingualQuerySet):
         self.queryset = qset
-        # self.quantity = qnt
 
     def get_hsa(self, quantity) -> MultilingualQuerySet:
         """Список аниме на главную для слайдера"""
@@ -60,11 +57,9 @@ class ArticleListService(ArticleService):
         return dorams
 
 def check_date():
-    # print(Viewer.objects.all().values('viewed_on'))
     curent_date = datetime.today()
     start_date = curent_date - timedelta(days=5)
     queryset = Article.objects.filter(viewers__viewed_on__range=[start_date, curent_date]).values('viewers').order_by('-viewers')[:5]
-    print(queryset)
 
 #TODO: Добавить уведомления в результате функции
 def check_article_user(self, request, **kwargs):
@@ -76,6 +71,6 @@ def check_article_user(self, request, **kwargs):
     try :
         self.model.objects.get(article_id=article, users=user_pk)
     except ObjectDoesNotExist:
-        self.model.objects.create(article_id=article).users.add(user_pk)  
+        self.model.objects.create(article_id=article).users.add(user_pk)
     finally:
         return url
